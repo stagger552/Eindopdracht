@@ -1,0 +1,77 @@
+﻿<Window x:Class="Eindopdracht.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eindopdracht"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox 
+    x:Name="txtGebruikernaam"
+    Margin="225,115,225,0"
+    TextWrapping="Wrap"
+    VerticalAlignment="Top"
+Text="Gebruikersnaam"
+    Height="40"
+    Padding="10"
+    BorderBrush="#379AE6"
+    BorderThickness="2" 
+     Foreground="Black"
+            MinWidth="100px">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border  
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="10"
+                                >
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox 
+            Margin="225,0,225,0" 
+            TextWrapping="Wrap" 
+            Text="Wachtwoord" 
+            Height="40"
+            Padding="10"
+            x:Name="txtPassword"/>
+        <Button x:Name="btnInloggen" Content="Inloggen"
+        Margin="529,365,121,0"
+        Background="#379AE6"
+        Foreground="White"
+        FontWeight="Bold"
+        FontSize="16"
+        Padding="10,5" Click="Button_Click" VerticalAlignment="Top" MaxWidth="200" MinWidth="100">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="10"
+                                Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+
+    </Grid>
+</Window>
+    
+ 
