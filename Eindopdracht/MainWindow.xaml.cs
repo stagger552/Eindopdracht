@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Eindopdracht.View;
 
 namespace Eindopdracht
 {
@@ -18,19 +19,22 @@ namespace Eindopdracht
     {
         public MainWindow()
         {
-            InitializeComponent();
+            Home homeWindow = new Home();
+            // Show the home window
+            homeWindow.Show();
+            //InitializeComponent();
 
         }
 
    
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string username = txtGebruikernaam.Text;
-            string password = txtPassword.Text;
-
-            
-            Console.WriteLine(username + ":" + password);
-            Console.WriteLine(password);
+            // Create an instance of the home window
+            Home homeWindow = new Home();
+            // Show the home window
+            homeWindow.Show();
+            // Optionally, close the current window
+            this.Close();
         }
     }
 }

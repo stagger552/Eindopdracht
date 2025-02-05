@@ -7,6 +7,24 @@
         mc:Ignorable="d"
         Title="Home" Height="450" Width="800">
     <Grid>
-        
+        <Rectangle HorizontalAlignment="Left" Height="90"  VerticalAlignment="Center" Width="205" Fill="#FF379AE6"  />
+        <Image Margin="14,66,646,325" Source="/Idea-X_logo.jpg" Stretch="Fill"/>
+        <Label Content="Home" HorizontalAlignment="Left" Margin="51,139,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="109" FontSize="24" />
+        <Label Content="Gesprekken" HorizontalAlignment="Left" Margin="51,178,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="35" Width="159" FontSize="22" />
+        <Label Content="Account&#xD;&#xA;preken" HorizontalAlignment="Left" Margin="51,217,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
+        <Label Content="Database" HorizontalAlignment="Left" Margin="51,255,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
+
+        <Label Content="Gesprekken &#xD;&#xA;Totaal" HorizontalAlignment="Left" Margin="230,66,0,0" VerticalAlignment="Top" Height="74" Width="174" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f" />
+        <Label Content="Gesprekken&#xD;&#xA;Vandaag" HorizontalAlignment="Left" Margin="404,71,0,0" VerticalAlignment="Top" Height="69" Width="176" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f"/>
+        <Label Content="Live&#xD;&#xA;Gesprekken" HorizontalAlignment="Left" Margin="602,66,0,0" VerticalAlignment="Top" Height="74" Width="174" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f"/>
+        <Label Content="3" HorizontalAlignment="Left" Margin="267,0,0,0" VerticalAlignment="Center" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" Foreground="#171a1f"/>
+        <Label Content="2" HorizontalAlignment="Left" Margin="468,190,0,0" VerticalAlignment="Top" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" RenderTransformOrigin="0.36,0.336" Foreground="#171a1f"/>
+        <Label Content="1" HorizontalAlignment="Left" Margin="664,190,0,0" VerticalAlignment="Top" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" Foreground="#171a1f"/>
+        <Image Margin="17,143,754,265" Source="/Home.png" Stretch="Fill"/>
+        <Image Margin="18,182,756,225" Source="/Message.png" Stretch="Fill"/>
+        <Image Margin="14,221,752,182" Source="/account.png" Stretch="Fill"/>
+        <Image Margin="16,263,754,148" Source="/Database.png" Stretch="Fill"/>
+
     </Grid>
 </Window>
+
