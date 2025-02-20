@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Eindopdracht.View;
+using Menu = Eindopdracht.View.Menu;
 
 namespace Eindopdracht
 {
@@ -19,10 +20,8 @@ namespace Eindopdracht
     {
         public MainWindow()
         {
-            Home homeWindow = new Home();
-            // Show the home window
-            homeWindow.Show();
-            //InitializeComponent();
+          
+            InitializeComponent();
 
         }
 
@@ -35,6 +34,12 @@ namespace Eindopdracht
             homeWindow.Show();
             // Optionally, close the current window
             this.Close();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+
         }
     }
 }

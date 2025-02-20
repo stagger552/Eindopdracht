@@ -6,7 +6,185 @@
         xmlns:local="clr-namespace:Eindopdracht.View"
         mc:Ignorable="d"
         Title="GesprekDetails" Height="450" Width="800">
+
+
     <Grid>
-        
+
+
+
+        <Rectangle HorizontalAlignment="Left" Height="180" Margin="565,84,0,0" StrokeThickness="0" RadiusX="15" RadiusY="15" VerticalAlignment="Top" Width="195" Fill="#F3F4F6"/>
+        <Label Content="Naam" HorizontalAlignment="Left" Margin="590,95,0,0" VerticalAlignment="Top" Height="22" Width="43" FontSize="10" FontFamily="Bahnschrift"/>
+        <Label Content="Adres" HorizontalAlignment="Left" Margin="590,120,0,0" VerticalAlignment="Top" Height="22" Width="48" FontSize="10" FontFamily="Bahnschrift"/>
+        <Label Content="Geldig" HorizontalAlignment="Left" Margin="590,150,0,0" VerticalAlignment="Top" Height="22" Width="45" FontSize="10" FontFamily="Bahnschrift"/>
+        <Label Content="Items" HorizontalAlignment="Left" Margin="590,175,0,0" VerticalAlignment="Top" Height="22" Width="45" FontSize="10" FontFamily="Bahnschrift"/>
+        <Label Content="Categorie" HorizontalAlignment="Left" Margin="590,200,0,0" VerticalAlignment="Top" Height="22" Width="60" FontSize="10" FontFamily="Bahnschrift" />
+        <Label Content="Afspraak" HorizontalAlignment="Left" Margin="590,225,0,0" VerticalAlignment="Top" Height="22" Width="55" FontSize="10" FontFamily="Bahnschrift"/>
+
+        <Rectangle x:Name="RndNaam" HorizontalAlignment="Left" Height="20" Margin="725,99,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblNaam" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,99,0,0" VerticalAlignment="Top" Height="25" Width="18" RenderTransformOrigin="1,0.502"/>
+
+        <Rectangle x:Name="RndAdres" HorizontalAlignment="Left" Height="20" Margin="725,122,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblAdres" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,119,0,0" VerticalAlignment="Top" Height="23" Width="18" RenderTransformOrigin="1,0.502"/>
+
+        <Rectangle x:Name="RndGeldig" HorizontalAlignment="Left" Height="20" Margin="725,149,0,0" VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblGeldig" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,149,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
+        <Rectangle x:Name="RndGeldig_Copy" HorizontalAlignment="Left" Height="20" Margin="725,176,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblGeldig_Copy" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,176,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
+        <Rectangle x:Name="RndGeldig_Copy1" HorizontalAlignment="Left" Height="20" Margin="725,199,0,0"  VerticalAlignment="Top" Width="20" Fill="#DE3B40" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblGeldig_Copy1" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,199,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
+        <Rectangle x:Name="RndGeldig_Copy2" HorizontalAlignment="Left" Height="20" Margin="725,224,0,0"  VerticalAlignment="Top" Width="20" Fill="#DE3B40" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblGeldig_Copy2" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,224,0,0" VerticalAlignment="Top" Height="23" Width="20" RenderTransformOrigin="1,0.502"/>
+        <Rectangle HorizontalAlignment="Left" Height="275" Margin="190,0,0,0" StrokeThickness="0" RadiusX="15" RadiusY="15" VerticalAlignment="Center"  Width="360" Fill="#F3F4F6"/>
+
+
+        <Button x:Name="btnOphangen" Content="Ophangen"
+                Margin="565,333,135,0"
+                Background="#DE3B40"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="10"
+                Padding="10,5"  VerticalAlignment="Top" MaxWidth="200" MinWidth="100" Height="50" Width="100" FontFamily="Bahnschrift">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="btnOpnemen" Content="Overnemen"
+            Margin="670,333,30,0"
+            Background="#1DD75B"
+            Foreground="White"
+            FontSize="10"
+            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="btnOphangen_Copy" 
+            Margin="565,274,135,0"
+            Background="#379AE6"
+            Foreground="White"
+            FontWeight="Bold"
+            FontSize="10"
+            Padding="10,5"  
+            VerticalAlignment="Top"  
+            Height="50" 
+            Width="100"
+            FontFamily="Bahnschrift" Click="btnOphangen_Copy_Click" 
+            >
+
+            <StackPanel Orientation="Horizontal">
+
+            </StackPanel>
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <TextBox 
+            x:Name="txtGebruikernaam"
+            Margin="190,379,355,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            
+            Height="25"
+MaxWidth="400px"
+            Padding="5"
+            BorderBrush="#379AE6"
+            BorderThickness="2" 
+            Foreground="Black"
+            MinWidth="100px" >
+            <TextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TextBox}">
+                                <Border  
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="5"
+                                >
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="btnOphangen_Copy1" 
+            Margin="450,379,250,30"
+            Background="#379AE6"
+            Foreground="White"
+            FontWeight="Bold"
+            FontSize="10"
+            Width="100"
+            Content="Verstuur"
+            Padding="10,5" Height="25" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <DockPanel LastChildFill="True" Margin="0,0,620,0">
+            <!-- Area where the Menu form will be loaded -->
+            <ContentControl x:Name="MenuFormContainer" DockPanel.Dock="Top">
+                <DockPanel LastChildFill="False"/>
+            </ContentControl>
+
+        </DockPanel>
+        <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="193,14,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblCallID" Content="asdasdasdasd" FontSize="30"  HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" FontStyle="Oblique" FontFamily="Bahnschrift"/>
+
     </Grid>
 </Window>

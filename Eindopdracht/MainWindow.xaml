@@ -46,12 +46,12 @@ Text="Gebruikersnaam"
             Padding="10"
             x:Name="txtPassword"/>
         <Button x:Name="btnInloggen" Content="Inloggen"
-        Margin="529,365,121,0"
+        Margin="515,0,135,90"
         Background="#379AE6"
         Foreground="White"
         FontWeight="Bold"
         FontSize="16"
-        Padding="10,5" Click="Button_Click" VerticalAlignment="Top" MaxWidth="200" MinWidth="100">
+        Padding="10,5" Click="Button_Click" VerticalAlignment="Bottom" MaxWidth="200" MinWidth="100">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -62,6 +62,37 @@ Text="Gebruikersnaam"
                                 Padding="{TemplateBinding Padding}">
                                     <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="btnClose" Content="Uitloggen"
+            Margin="620,0,0,380"
+            Background="#DE3B40"
+            Foreground="White"
+            FontWeight="Bold"
+            FontSize="10"
+            Padding="10,5" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Width="155" 
+            Height="30"
+            FontFamily="Bahnschrift" Click="btnClose_Click" 
+            >
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>

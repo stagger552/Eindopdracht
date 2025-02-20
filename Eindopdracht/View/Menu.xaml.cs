@@ -15,31 +15,15 @@ using System.Windows.Shapes;
 namespace Eindopdracht.View
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for Menu.xaml
     /// </summary>
-    public partial class Home : Window
+    public partial class Menu : Window
     {
-        public Home()
+        public Menu()
         {
             InitializeComponent();
-
-            LoadMenuForm();
-
-
         }
-        private void LoadMenuForm()
-        {
-            // Create instance of the menu form
-            Menu menu = new Menu();
 
-            // Extract the content from the MenuForm
-            var menuContent = menu.Content;
-
-           
-
-            // Add it to our DockPanel's ContentControl
-            MenuFormContainer.Content = menuContent;
-        }
 
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -79,10 +63,10 @@ namespace Eindopdracht.View
 
         private void btnOphangen_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow inloggen = new MainWindow();
+            MainWindow inloggen = new MainWindow ();
             this.Close();
             inloggen.Show();
-
+            
         }
     }
 }
