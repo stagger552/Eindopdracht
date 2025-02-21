@@ -10,7 +10,12 @@
 
     <Grid>
 
-
+        <TextBox Name="TranscriptTextBox" 
+                 VerticalScrollBarVisibility="Auto" 
+                 HorizontalScrollBarVisibility="Auto"
+                 IsReadOnly="True"  
+                 TextWrapping="Wrap" 
+                 Margin="193,89,260,85" />
 
         <Rectangle HorizontalAlignment="Left" Height="180" Margin="565,84,0,0" StrokeThickness="0" RadiusX="15" RadiusY="15" VerticalAlignment="Top" Width="195" Fill="#F3F4F6"/>
         <Label Content="Naam" HorizontalAlignment="Left" Margin="590,95,0,0" VerticalAlignment="Top" Height="22" Width="43" FontSize="10" FontFamily="Bahnschrift"/>
@@ -34,7 +39,6 @@
         <Label x:Name="lblGeldig_Copy1" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,199,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
         <Rectangle x:Name="RndGeldig_Copy2" HorizontalAlignment="Left" Height="20" Margin="725,224,0,0"  VerticalAlignment="Top" Width="20" Fill="#DE3B40" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
         <Label x:Name="lblGeldig_Copy2" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,224,0,0" VerticalAlignment="Top" Height="23" Width="20" RenderTransformOrigin="1,0.502"/>
-        <Rectangle HorizontalAlignment="Left" Height="275" Margin="190,0,0,0" StrokeThickness="0" RadiusX="15" RadiusY="15" VerticalAlignment="Center"  Width="360" Fill="#F3F4F6"/>
 
 
         <Button x:Name="btnOphangen" Content="Ophangen"
@@ -43,7 +47,7 @@
                 Foreground="White"
                 FontWeight="Bold"
                 FontSize="10"
-                Padding="10,5"  VerticalAlignment="Top" MaxWidth="200" MinWidth="100" Height="50" Width="100" FontFamily="Bahnschrift">
+                Padding="10,5"  VerticalAlignment="Top" MaxWidth="200" MinWidth="100" Height="50" Width="100" FontFamily="Bahnschrift" Click="btnOphangen_Click_1">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -61,12 +65,12 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button x:Name="btnOpnemen" Content="Overnemen"
+        <Button x:Name="btnOpnemen" Content="Doorsturen"
             Margin="670,333,30,0"
             Background="#1DD75B"
             Foreground="White"
             FontSize="10"
-            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift">
+            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift" Click="btnOpnemen_Click">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -119,7 +123,7 @@
             </Button.Style>
         </Button>
         <TextBox 
-            x:Name="txtGebruikernaam"
+            x:Name="txtExternalBericht"
             Margin="190,379,355,0"
             TextWrapping="Wrap"
             VerticalAlignment="Top"
@@ -150,7 +154,7 @@ MaxWidth="400px"
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <Button x:Name="btnOphangen_Copy1" 
+        <Button x:Name="btnVersturen" 
             Margin="450,379,250,30"
             Background="#379AE6"
             Foreground="White"
@@ -158,7 +162,7 @@ MaxWidth="400px"
             FontSize="10"
             Width="100"
             Content="Verstuur"
-            Padding="10,5" Height="25" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" >
+            Padding="10,5" Height="25" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -176,15 +180,71 @@ MaxWidth="400px"
                 </Style>
             </Button.Style>
         </Button>
-        <DockPanel LastChildFill="True" Margin="0,0,620,0">
-            <!-- Area where the Menu form will be loaded -->
-            <ContentControl x:Name="MenuFormContainer" DockPanel.Dock="Top">
-                <DockPanel LastChildFill="False"/>
-            </ContentControl>
-
-        </DockPanel>
         <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="193,14,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblCallID" Content="asdasdasdasd" FontSize="30"  HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" FontStyle="Oblique" FontFamily="Bahnschrift"/>
+        <Label x:Name="lblCallID" Content="" FontSize="30"  HorizontalAlignment="Left" Margin="300,16,0,0" VerticalAlignment="Top" FontStyle="Oblique" FontFamily="Bahnschrift" Width="365"/>
+        <Rectangle HorizontalAlignment="Left"  
+            Height="Auto"  Width="177" Fill="#FF379AE6" />
+        <Image Margin="18,34,644,357" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill"/>
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="22,133,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="98" FontSize="24" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="16,174,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="157" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="22,211,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="112" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="22,249,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="112" FontSize="22" />
+        <Button x:Name="btnOphangen_Copy2" Content="Uitloggen"
+            Margin="9,0,0,40"
+            Background="#DE3B40"
+            Foreground="White"
+            FontWeight="Bold"
+            FontSize="10"
+            Padding="10,5" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Width="164" 
+            Height="50"
+            FontFamily="Bahnschrift" 
+            Click="btnOphangen_Click"  >
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Image Margin="16,20,660,371" Source="/View/Idea-X_logo.jpg" Stretch="Fill"/>
+        <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="193,14,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnOpnemen_Copy" Content="JSON Bekijken"
+            Margin="670,274,30,0"
+            Background="#379AE6"
+            Foreground="White"
+            FontSize="10"
+            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="5"
+                                    Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
 
     </Grid>
 </Window>

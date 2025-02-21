@@ -71,11 +71,30 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
+        <DataGrid ItemsSource="{Binding Calls}" AutoGenerateColumns="False" Margin="218,162,82,40" >
+            <DataGrid.Columns>
+                <!-- CallInfo Column -->
+                <DataGridTextColumn Header="Call Info" Binding="{Binding CallInfo}" Width="*"/>
 
-        <TextBox x:Name="txtCalldata"
-            TextWrapping="Wrap"
-            AcceptsReturn="True"
-            VerticalScrollBarVisibility="Visible" Margin="230,156,30,27" />
+                <!-- IsClosed Column -->
+                <DataGridCheckBoxColumn Header="Is Closed" Binding="{Binding IsClosed}" Width="Auto"/>
+
+                <!-- Datetime Column -->
+                <DataGridTextColumn Header="Datetime" Binding="{Binding Datetime}" Width="*"/>
+
+                <!-- Action Button -->
+                <DataGridTemplateColumn Header="Action" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Details" Click="DetailsButton_Click" Tag="{Binding CallInfo}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Left" Margin="601,32,0,0" VerticalAlignment="Top" Height="26" Width="144" FontFamily="Bahnschrift Light" FontSize="9"/>
+        <Rectangle x:Name="RctStatus" HorizontalAlignment="Left" Height="20" Margin="765,28,0,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
 
     </Grid>
 </Window>

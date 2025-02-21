@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Eindopdracht.Controller
 {
-    internal class GesprekkenController
+    internal class WebsocketController
     {
+
         private ClientWebSocket _webSocket;
         private JObject _lastReceivedJson;
         private readonly object _lock = new object();
         private bool _isConnecting = false; // Prevents multiple connection attempts
-
-        public GesprekkenController()
+        public WebsocketController()
         {
             _webSocket = new ClientWebSocket();
             Task.Run(() => ConnectAsync()); // Ensure connection starts when object is created
@@ -57,32 +57,37 @@ namespace Eindopdracht.Controller
         {
             byte[] buffer = new byte[4096];
 
-            StringBuilder messageBuilder = new StringBuilder();
-
             while (_webSocket.State == WebSocketState.Open)
             {
                 try
                 {
                     var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                    string messageChunk = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    messageBuilder.Append(messageChunk);
+                    string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    Console.WriteLine($"📩 Received: {message}");
 
-                    // Attempt to parse the accumulated message
-                    try
+                    JObject json = JObject.Parse(message);
+
+                    // Store latest JSON safely
+
+                    _lastReceivedJson = json;
+
+
+                    if (json["type"]?.ToString() == "callData")
                     {
-                        JObject json = JObject.Parse(messageBuilder.ToString());
-                        Console.WriteLine($"📩 Received: {json}");
+                        var callData = json["data"]?["callId"];
 
-                        // Store the latest JSON safely
-                        _lastReceivedJson = json;
-
-                        // Clear the StringBuilder for the next message
-                        messageBuilder.Clear();
-                    }
-                    catch (JsonReaderException)
-                    {
-                        // JSON is incomplete; continue accumulating
-                        continue;
+                        if (callData != null)
+                        {
+                            foreach (var call in callData)
+                            {
+                                string callId = call.Path;
+                                var callInfo = call.First;
+                                Console.WriteLine($"📞 Call ID: {callId}");
+                                Console.WriteLine($"📱 Telefoonnummer: {callInfo["Telefoonummer"]}");
+                                Console.WriteLine($"📍 Adres: {callInfo["Postcode"]} {callInfo["Huisnummer"]}");
+                                Console.WriteLine($"✅ Gesprek gesloten: {callInfo["Closed"]}");
+                            }
+                        }
                     }
                 }
                 catch (WebSocketException ex)
@@ -92,7 +97,7 @@ namespace Eindopdracht.Controller
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"⚠️ Error: {ex.Message}");
+                    Console.WriteLine($"⚠️ JSON Parse Error: {ex.Message}");
                 }
             }
 
@@ -118,7 +123,7 @@ namespace Eindopdracht.Controller
             }
         }
 
-        public async Task<int?> GetActiveCalls()
+        public async Task<int> GetActiveCalls()
         {
             var json = GetLastReceivedJson();
             if (json != null && json["type"]?.ToString() == "callData")
@@ -127,12 +132,12 @@ namespace Eindopdracht.Controller
                 if (activeCallsToken != null && int.TryParse(activeCallsToken.ToString(), out int activeCalls))
                 {
                     return activeCalls;
-                }   
+                }
             }
-            return null;
+            return 0;
         }
 
-        public async Task<int?> Get24Callls()
+        public async Task<int> Get24Callls()
         {
             var json = GetLastReceivedJson();
             if (json != null && json["type"]?.ToString() == "callData")
@@ -143,7 +148,7 @@ namespace Eindopdracht.Controller
                     return twentyFourCalls;
                 }
             }
-            return null;
+            return 0;
         }
 
         public async Task<string> GetJSON()
@@ -160,3 +165,6 @@ namespace Eindopdracht.Controller
         }
     }
 }
+
+
+
