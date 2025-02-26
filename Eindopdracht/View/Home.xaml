@@ -8,30 +8,30 @@
         Title="Home" Height="450" Width="800">
     <Grid>
         <Rectangle HorizontalAlignment="Left"  
-            VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
-        <Image Margin="20,34,624,357" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill"/>
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="51,139,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="109" FontSize="24" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="44,180,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,217,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="51,255,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
+             VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
+        <Image Margin="10,34,0,0" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill" Width="185" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="56,144,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="108" FontSize="24" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="46,188,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,236,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="51,283,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="33" Width="125" FontSize="22" />
 
-        <Image Margin="17,143,754,265" Source="source/Image/Home.png" />
-        <Image Margin="18,182,756,225" Source="source/Image/Message.png" />
-        <Image Margin="14,221,752,182" Source="source/Image/account.png" Stretch="Fill"/>
-        <Image Margin="16,263,754,148" Source="source/Image/Database.png" Stretch="Fill"/>
+        <Image Margin="16,150,0,0" Source="source/Image/Home.png" Width="30" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="14,199,0,0" Source="source/Image/Message.png" Width="25" Height="27" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="13,236,0,0" Source="source/Image/account.png" Stretch="Fill" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="14,290,0,0" Source="source/Image/Database.png" Stretch="Fill" Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button x:Name="btnOphangen" Content="Uitloggen"
-     Margin="10,0,0,40"
-     Background="#DE3B40"
-     Foreground="White"
-     FontWeight="Bold"
-     FontSize="10"
-     Padding="10,5" 
-     HorizontalAlignment="Left"
-     VerticalAlignment="Bottom"
-     Width="185" 
-     Height="50"
-     FontFamily="Bahnschrift" 
-     Click="btnOphangen_Click"  >
+      Margin="10,0,0,40"
+      Background="#DE3B40"
+      Foreground="White"
+      FontWeight="Bold"
+      FontSize="10"
+      Padding="10,5" 
+      HorizontalAlignment="Left"
+      VerticalAlignment="Bottom"
+      Width="185" 
+      Height="50"
+      FontFamily="Bahnschrift" 
+      Click="btnOphangen_Click"  >
 
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -39,10 +39,10 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border Background="{TemplateBinding Background}" 
-                             CornerRadius="5"
-                             Padding="{TemplateBinding Padding}">
+                              CornerRadius="5"
+                              Padding="{TemplateBinding Padding}">
                                     <ContentPresenter HorizontalAlignment="Center"
-                                 VerticalAlignment="Center"/>
+                                  VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -51,22 +51,13 @@
             </Button.Style>
         </Button>
 
-
-
         <Label Content="Gesprekken &#xD;&#xA;Totaal" HorizontalAlignment="Left" Margin="230,66,0,0" VerticalAlignment="Top" Height="74" Width="174" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f" RenderTransformOrigin="0.431,0.244" />
         <Label Content="Gesprekken&#xD;&#xA;Vandaag" HorizontalAlignment="Left" Margin="404,71,0,0" VerticalAlignment="Top" Height="70" Width="176" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f"/>
         <Label Content="Live&#xD;&#xA;Gesprekken" HorizontalAlignment="Left" Margin="602,66,0,0" VerticalAlignment="Top" Height="74" Width="174" FontWeight="Bold" FontFamily="Arial Black" FontSize="24" Foreground="#171a1f"/>
         <Label Content="3" HorizontalAlignment="Left" Margin="267,190,0,0" VerticalAlignment="Top" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" Foreground="#171a1f"/>
         <Label Content="2" HorizontalAlignment="Left" Margin="468,190,0,0" VerticalAlignment="Top" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" RenderTransformOrigin="0.36,0.336" Foreground="#171a1f"/>
         <Label x:Name="lblLiveGesprekken" Content="1" HorizontalAlignment="Left" Margin="664,190,0,0" VerticalAlignment="Top" Height="46" Width="50" FontWeight="Bold" FontFamily="Arial Black" FontSize="36" Foreground="#171a1f"/>
-        
-        <DockPanel LastChildFill="True">
-            <!-- Area where the Menu form will be loaded -->
-            <ContentControl x:Name="MenuFormContainer" DockPanel.Dock="Top">
-                <DockPanel LastChildFill="False"/>
-            </ContentControl>
 
-        </DockPanel>
 
     </Grid>
 </Window>

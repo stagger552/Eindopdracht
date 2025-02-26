@@ -146,6 +146,18 @@ namespace Eindopdracht.Controller
             return null;
         }
 
+        public async Task<string> GetDatetime()
+        {
+            var json = GetLastReceivedJson();
+            if (json != null && json["type"]?.ToString() == "callData")
+            {
+                var datetime = json["data"]?["Datetime"];
+
+
+                return datetime.ToString();
+            }
+            return "Niks";
+        }
         public async Task<string> GetJSON()
         {
             var json = GetLastReceivedJson();

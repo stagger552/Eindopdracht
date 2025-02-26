@@ -5,49 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eindopdracht.View"
         mc:Ignorable="d"
-        Title="GesprekDetails" Height="450" Width="800">
+        Title="GesprekDetails" Height="515" Width="960">
 
-
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="39*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBox Name="TranscriptTextBox" 
-                 VerticalScrollBarVisibility="Auto" 
-                 HorizontalScrollBarVisibility="Auto"
-                 IsReadOnly="True"  
-                 TextWrapping="Wrap" 
-                 Margin="193,89,260,85" />
+        <RichTextBox Name="TranscriptTextBox" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Auto"
+                     IsReadOnly="True"  
+                     HorizontalAlignment="Left"
+                     Margin="230,89,65,85" MaxWidth="750"/>
+        <DataGrid x:Name="CallDataGrid" AutoGenerateColumns="False" Margin="683,89,17,150" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="400" MaxHeight="300">
+            <DataGrid.Columns>
+                <!-- Checkpoints Column -->
+                <DataGridTextColumn Header="Status" Binding="{Binding CheckpointName}" Width="100"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="180" Margin="565,84,0,0" StrokeThickness="0" RadiusX="15" RadiusY="15" VerticalAlignment="Top" Width="195" Fill="#F3F4F6"/>
-        <Label Content="Naam" HorizontalAlignment="Left" Margin="590,95,0,0" VerticalAlignment="Top" Height="22" Width="43" FontSize="10" FontFamily="Bahnschrift"/>
-        <Label Content="Adres" HorizontalAlignment="Left" Margin="590,120,0,0" VerticalAlignment="Top" Height="22" Width="48" FontSize="10" FontFamily="Bahnschrift"/>
-        <Label Content="Geldig" HorizontalAlignment="Left" Margin="590,150,0,0" VerticalAlignment="Top" Height="22" Width="45" FontSize="10" FontFamily="Bahnschrift"/>
-        <Label Content="Items" HorizontalAlignment="Left" Margin="590,175,0,0" VerticalAlignment="Top" Height="22" Width="45" FontSize="10" FontFamily="Bahnschrift"/>
-        <Label Content="Categorie" HorizontalAlignment="Left" Margin="590,200,0,0" VerticalAlignment="Top" Height="22" Width="60" FontSize="10" FontFamily="Bahnschrift" />
-        <Label Content="Afspraak" HorizontalAlignment="Left" Margin="590,225,0,0" VerticalAlignment="Top" Height="22" Width="55" FontSize="10" FontFamily="Bahnschrift"/>
+                <!-- Checkbox Column -->
+                <DataGridTemplateColumn Header="Active" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="False" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-        <Rectangle x:Name="RndNaam" HorizontalAlignment="Left" Height="20" Margin="725,99,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblNaam" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,99,0,0" VerticalAlignment="Top" Height="25" Width="18" RenderTransformOrigin="1,0.502"/>
-
-        <Rectangle x:Name="RndAdres" HorizontalAlignment="Left" Height="20" Margin="725,122,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblAdres" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,119,0,0" VerticalAlignment="Top" Height="23" Width="18" RenderTransformOrigin="1,0.502"/>
-
-        <Rectangle x:Name="RndGeldig" HorizontalAlignment="Left" Height="20" Margin="725,149,0,0" VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblGeldig" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,149,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
-        <Rectangle x:Name="RndGeldig_Copy" HorizontalAlignment="Left" Height="20" Margin="725,176,0,0"  VerticalAlignment="Top" Width="20" Fill="Green" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblGeldig_Copy" Content="✓" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,176,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
-        <Rectangle x:Name="RndGeldig_Copy1" HorizontalAlignment="Left" Height="20" Margin="725,199,0,0"  VerticalAlignment="Top" Width="20" Fill="#DE3B40" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblGeldig_Copy1" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,199,0,0" VerticalAlignment="Top" Height="23" Width="17" RenderTransformOrigin="1,0.502"/>
-        <Rectangle x:Name="RndGeldig_Copy2" HorizontalAlignment="Left" Height="20" Margin="725,224,0,0"  VerticalAlignment="Top" Width="20" Fill="#DE3B40" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
-        <Label x:Name="lblGeldig_Copy2" Content="X" HorizontalAlignment="Left" FontSize="10" Foreground="White" Margin="725,224,0,0" VerticalAlignment="Top" Height="23" Width="20" RenderTransformOrigin="1,0.502"/>
-
+                <!-- Details Column -->
+                <DataGridTemplateColumn Header="Details" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DetailValue}" Margin="5,0"/>
+                                <Button Content="View" Visibility="{Binding ShowButton, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                        Click="Button_Click" Tag="{Binding CheckpointName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Button x:Name="btnOphangen" Content="Ophangen"
-                Margin="565,333,135,0"
+                Margin="0,419,134,30"
                 Background="#DE3B40"
                 Foreground="White"
                 FontWeight="Bold"
                 FontSize="10"
-                Padding="10,5"  VerticalAlignment="Top" MaxWidth="200" MinWidth="100" Height="50" Width="100" FontFamily="Bahnschrift" Click="btnOphangen_Click_1">
+                Padding="10,5"  VerticalAlignment="Bottom" MaxWidth="200" MinWidth="100" Height="50" Width="100" FontFamily="Bahnschrift" Click="btnOphangen_Click_1" Grid.Column="1">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -66,11 +76,12 @@
             </Button.Style>
         </Button>
         <Button x:Name="btnOpnemen" Content="Doorsturen"
-            Margin="670,333,30,0"
+            Margin="105,0,29,29"
             Background="#1DD75B"
             Foreground="White"
+            FontWeight="Bold"
             FontSize="10"
-            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift" Click="btnOpnemen_Click">
+            Padding="10,5"  VerticalAlignment="Bottom" Width="100" Height="51" FontFamily="Bahnschrift" Click="btnOpnemen_Click" Grid.Column="1">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -89,21 +100,24 @@
             </Button.Style>
         </Button>
         <Button x:Name="btnOphangen_Copy" 
-            Margin="565,274,135,0"
+            Margin="0,0,134,90"
             Background="#379AE6"
             Foreground="White"
             FontWeight="Bold"
             FontSize="10"
             Padding="10,5"  
-            VerticalAlignment="Top"  
+            VerticalAlignment="Bottom"  
             Height="50" 
             Width="100"
-            FontFamily="Bahnschrift" Click="btnOphangen_Copy_Click" 
+            FontFamily="Bahnschrift" Click="btnOphangen_Copy_Click" Grid.Column="1" 
+            
+
             >
-
             <StackPanel Orientation="Horizontal">
-
+                <Image Source="source/Image/SoundOn.png" Width="20" Height="20" Margin="5"/>
+                <TextBlock Text="Luisteren" Foreground="White" VerticalAlignment="Center"/>
             </StackPanel>
+
 
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -124,17 +138,17 @@
         </Button>
         <TextBox 
             x:Name="txtExternalBericht"
-            Margin="190,379,355,0"
+            Margin="230,0,0,30"
             TextWrapping="Wrap"
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             
-            Height="25"
-MaxWidth="400px"
+            Height="35"
+MaxWidth="300px"
             Padding="5"
             BorderBrush="#379AE6"
             BorderThickness="2" 
             Foreground="Black"
-            MinWidth="100px" >
+            MinWidth="100px" TextChanged="txtExternalBericht_TextChanged" HorizontalAlignment="Left" Width="479" >
             <TextBox.Style>
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="Template">
@@ -155,53 +169,18 @@ MaxWidth="400px"
             </TextBox.Style>
         </TextBox>
         <Button x:Name="btnVersturen" 
-            Margin="450,379,250,30"
+            Margin="540,0,101,27"
             Background="#379AE6"
             Foreground="White"
             FontWeight="Bold"
             FontSize="10"
-            Width="100"
-            Content="Verstuur"
-            Padding="10,5" Height="25" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}" 
-                                    CornerRadius="5"
-                                    Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="193,14,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblCallID" Content="" FontSize="30"  HorizontalAlignment="Left" Margin="300,16,0,0" VerticalAlignment="Top" FontStyle="Oblique" FontFamily="Bahnschrift" Width="365"/>
-        <Rectangle HorizontalAlignment="Left"  
-            Height="Auto"  Width="177" Fill="#FF379AE6" />
-        <Image Margin="18,34,644,357" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill"/>
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="22,133,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="98" FontSize="24" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="16,174,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="157" FontSize="22" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="22,211,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="112" FontSize="22" />
-        <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="22,249,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="112" FontSize="22" />
-        <Button x:Name="btnOphangen_Copy2" Content="Uitloggen"
-            Margin="9,0,0,40"
-            Background="#DE3B40"
-            Foreground="White"
-            FontWeight="Bold"
-            FontSize="10"
-            Padding="10,5" 
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Width="164" 
-            Height="50"
-            FontFamily="Bahnschrift" 
-            Click="btnOphangen_Click"  >
+            
+            Padding="10,5" Height="40" VerticalAlignment="Bottom" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="source/Image/send-90.png" Width="20" Height="20" Margin="5"/>
+            </StackPanel>
+
 
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -219,15 +198,63 @@ MaxWidth="400px"
                     </Setter>
                 </Style>
             </Button.Style>
+
+
         </Button>
-        <Image Margin="16,20,660,371" Source="/View/Idea-X_logo.jpg" Stretch="Fill"/>
-        <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="193,14,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnOpnemen_Copy" Content="JSON Bekijken"
-            Margin="670,274,30,0"
+        <Label Content="CallID:" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="225,15,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblCallID" Content="" FontSize="21"  HorizontalAlignment="Left" Margin="330,25,0,0" VerticalAlignment="Top" FontStyle="Oblique" FontFamily="Bahnschrift" Width="441" Grid.ColumnSpan="2"/>
+
+        <Rectangle HorizontalAlignment="Left"  
+       VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
+        <Image Margin="10,34,0,0" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill" Width="185" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="56,144,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="108" FontSize="24" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="46,188,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,236,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
+        <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="51,283,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="33" Width="125" FontSize="22" />
+
+        <Image Margin="16,150,0,0" Source="source/Image/Home.png" Width="30" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="14,199,0,0" Source="source/Image/Message.png" Width="25" Height="27" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="13,236,0,0" Source="source/Image/account.png" Stretch="Fill" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Image Margin="14,290,0,0" Source="source/Image/Database.png" Stretch="Fill" Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="btnSluiten" Content="Uitloggen"
+Margin="10,0,0,40"
+Background="#DE3B40"
+Foreground="White"
+FontWeight="Bold"
+FontSize="10"
+Padding="10,5" 
+HorizontalAlignment="Left"
+VerticalAlignment="Bottom"
+Width="185" 
+Height="50"
+FontFamily="Bahnschrift" 
+Click="btnOphangen_Click"  >
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                        CornerRadius="5"
+                        Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+
+        <Button x:Name="btnJsonBekijken" Content="JSON Bekijken"
+            Margin="105,0,29,90"
             Background="#379AE6"
             Foreground="White"
             FontSize="10"
-            Padding="10,5"  VerticalAlignment="Top" Width="100" Height="51" FontFamily="Bahnschrift">
+            Padding="10,5"  VerticalAlignment="Bottom" Width="100" Height="51" FontFamily="Bahnschrift" Click="btnJsonBekijken_Click" Grid.Column="1">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -245,6 +272,8 @@ MaxWidth="400px"
                 </Style>
             </Button.Style>
         </Button>
+        <Rectangle x:Name="RctStatus" HorizontalAlignment="Left" Height="20" Margin="185,29,0,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15"  Grid.Column="1"/>
+        <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Right" Margin="0,26,85,0" VerticalAlignment="Top" Height="26" Width="100" FontFamily="Bahnschrift Light" FontSize="9" Grid.Column="1"/>
 
     </Grid>
 </Window>

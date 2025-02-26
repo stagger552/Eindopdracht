@@ -26,7 +26,9 @@ namespace Eindopdracht.View
     public partial class Gesprekken : Window
     {
         private System.Timers.Timer timer;
+
         private GesprekkenController gesprekkenController = new GesprekkenController();
+
         public ObservableCollection<CallData> Calls { get; set; }
 
         public Gesprekken()
@@ -92,11 +94,13 @@ namespace Eindopdracht.View
             inloggen.Show();
 
         }
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private async void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             updateActiveCalls();
             update24hourcalls();
             LoadData();
+            lastReceived();
+
         }
 
         public async void updateActiveCalls()
@@ -106,7 +110,7 @@ namespace Eindopdracht.View
 
 
 
-            if(aantal.HasValue)
+            if(aantal >= 0)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -119,7 +123,7 @@ namespace Eindopdracht.View
                     lblLivecalls.Content = aantal.ToString();
                 });
             }
-            else
+            if(aantal > 0)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
@@ -143,9 +147,21 @@ namespace Eindopdracht.View
             });
         }
 
+        public async void lastReceived()
+        {
+
+            var LastReceived = gesprekkenController.GetDatetime();
+
+            // Use the Dispatcher to update the UI on the main thread
+            lblLastReceived.Dispatcher.Invoke(() =>
+            {
+                lblLastReceived.Content = LastReceived.Result.ToString();
+            });
+        }
 
 
- 
+
+
 
         async void LoadData()
         {

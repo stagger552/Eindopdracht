@@ -33,12 +33,19 @@ namespace Eindopdracht.View
         private static readonly HttpClient client = new HttpClient();
 
         private WebsocketController websocketController = new WebsocketController();
+
+
         private System.Timers.Timer timer;
 
         private string CallerID;
 
         public GesprekDetails(String Callid)
-        {
+
+        
+        
+       {
+           CallerID = Callid;
+
             timer = new System.Timers.Timer(1000); // 5000 milliseconds = 5 seconds
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
@@ -46,15 +53,28 @@ namespace Eindopdracht.View
 
             InitializeComponent();
 
-            lblCallID.Content = Callid;
-            CallerID = Callid;
+            lblCallID.Content = CallerID;
 
+            // Add converter for button visibility
+            ResourceDictionary resources = new ResourceDictionary();
+            resources.Add("BooleanToVisibilityConverter", new BooleanToVisibilityConverter());
+            this.Resources.MergedDictionaries.Add(resources);
 
+           
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            LoadTranscript();
+            try
+            {
+                LoadTranscript();
+                LoadData();
+                lastReceived();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         async private void LoadTranscript()
         {
@@ -70,22 +90,35 @@ namespace Eindopdracht.View
 
                 if (fullTranscript != null)
                 {
-                    string transcriptText = "";
-                    foreach (var entry in fullTranscript)
+                    Dispatcher.Invoke(() =>
                     {
-                        transcriptText += $"{entry["role"]}: {entry["content"]}\n";
-                    }
-                    TranscriptTextBox.Dispatcher.Invoke(() =>
+                        var document = new FlowDocument();
+                        var paragraph = new Paragraph();
+                        foreach (var entry in fullTranscript)
                         {
-                            TranscriptTextBox.Text = transcriptText;
-
+                            var boldRole = new Bold(new Run($"{entry["role"]}: "));
+                            var content = new Run($"{entry["content"]}\n");
+                            paragraph.Inlines.Add(boldRole);
+                            paragraph.Inlines.Add(content);
                         }
-                    );
-
+                        document.Blocks.Add(paragraph);
+                        TranscriptTextBox.Document = document;
+                    });
                 }
 
-              
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
+                });
+
                 // Set the text of the TextBox
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
+                });
             }
         }
 
@@ -241,7 +274,7 @@ namespace Eindopdracht.View
             SendCloseCallRequest(CallerID);
         }
 
-    
+
 
         private void btnVersturen_Click(object sender, RoutedEventArgs e)
         {
@@ -251,7 +284,17 @@ namespace Eindopdracht.View
             SendExternalMessageAsync(Message, CallerID);
 
         }
+        public async void lastReceived()
+        {
 
+            var LastReceived = websocketController.GetDatetime();
+
+            // Use the Dispatcher to update the UI on the main thread
+            lblLastReceived.Dispatcher.Invoke(() =>
+            {
+                lblLastReceived.Content = LastReceived.Result.ToString();
+            });
+        }
         public async Task SendExternalMessageAsync(string message, string callID)
         {
             try
@@ -279,6 +322,181 @@ namespace Eindopdracht.View
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
+        }
+        private async  void LoadData()
+        {
+            try
+            {
+
+
+                // Sample data from your JSON
+                var callDataJson = await websocketController.GetJSONCallid(CallerID);
+
+                if (callDataJson == "Niks")
+                {
+                    MessageBox.Show("No call data found.");
+                    return;
+                }else
+                {
+                    // Deserialize the JSON string into CallData object
+                    var callData = JsonConvert.DeserializeObject<CallData>(callDataJson);
+
+                    // Populate the DataGrid with items
+                    var items = new List<CallDataItem>
+                    {
+                       
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotName",
+                            IsChecked = callData.Checkpoints.GotName,
+                            DetailValue = callData.Voornaam ?? "Not provided"
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotEmail",
+                            IsChecked = callData.Checkpoints.GotEmail,
+                            DetailValue = callData.Email ?? "Not provided"
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotAdres",
+                            IsChecked = callData.Checkpoints.GotAdres,
+                            DetailValue = $"{callData.Postcode} {callData.Huisnummer}"
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotItem",
+                            IsChecked = callData.Checkpoints.GotItem,
+                            DetailValue = "Item details",
+                            ShowButton = true
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotCategory",
+                            IsChecked = callData.Checkpoints.GotCategory,
+                            DetailValue = "Category details",
+                            ShowButton = true
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotAvailabledates",
+                            IsChecked = callData.Checkpoints.GotAvailableDates,
+                            DetailValue = "Available dates",
+                            ShowButton = true
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "GotSelectedDate",
+                            IsChecked = callData.Checkpoints.GotSelectedDate,
+                            DetailValue = callData.Afspraak.Naam ?? "Not selected"
+                        },
+                        new CallDataItem
+                        {
+                            CheckpointName = "PlannedDate",
+                            IsChecked = callData.Checkpoints.PlannedDate,
+                            DetailValue = "Planned date"
+                        },
+                        new CallDataItem
+                        {
+                        CheckpointName = "Doorgestuurd",
+                        IsChecked = callData.Doorgestuurd,
+                        DetailValue = callData.Doorgestuurd.ToString()
+                        },
+                    new CallDataItem
+                    {
+                        CheckpointName = "Closed",
+                        IsChecked = callData.Closed,
+                        DetailValue = callData.Closed.ToString()
+                    },
+                    };
+
+                    // Update the DataGrid on the UI thread using Dispatcher
+                    Dispatcher.Invoke(() =>
+                    {
+                        CallDataGrid.ItemsSource = items;
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error loading data: {ex.Message}");
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                });
+            }
+        }
+
+
+        private void input_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            String Message = txtExternalBericht.Text;
+            txtExternalBericht.Text = "";
+
+            SendExternalMessageAsync(Message, CallerID);
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Cast sender to Button to access its properties
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
+            {
+                // Get the CheckpointName from the Tag property
+                string checkpointName = clickedButton.Tag as string;
+                MessageBox.Show($"Button clicked for checkpoint: {checkpointName}");
+            }
+        }
+
+        public class CallDataItem
+        {
+            public string CheckpointName { get; set; }
+            public bool IsChecked { get; set; }
+            public string DetailValue { get; set; }
+            public bool ShowButton { get; set; }
+        }
+
+        public class CallData
+        {
+            public string Callinfo { get; set; }
+            public bool Doorgestuurd { get; set; }
+            public string Voornaam { get; set; }
+            public string Email { get; set; }
+            public string Postcode { get; set; }
+            public string Huisnummer { get; set; }
+            public bool? AdresGeldig { get; set; } // Changed to nullable bool
+            public string Datetime { get; set; }
+            public bool Closed { get; set; }
+            public Checkpoints Checkpoints { get; set; }
+            public Afspraak Afspraak { get; set; }
+        }
+        public class Checkpoints
+        {
+            public bool GotName { get; set; }
+            public bool GotEmail { get; set; }
+            public bool GotAdres { get; set; }
+            public bool GotItem { get; set; }
+            public bool GotCategory { get; set; }
+            [JsonProperty("GotAvailabledates")] // Match JSON key exactly
+            public bool GotAvailableDates { get; set; } // CamelCase for C# convention
+            public bool GotSelectedDate { get; set; }
+            public bool PlannedDate { get; set; }
+        }
+
+        public class Afspraak
+        {
+            public string Naam { get; set; }
+        }
+
+
+        private void btnJsonBekijken_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtExternalBericht_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -23,31 +23,18 @@ namespace Eindopdracht.View
         {
             InitializeComponent();
 
-            LoadMenuForm();
 
 
         }
-        private void LoadMenuForm()
-        {
-            // Create instance of the menu form
-            Menu menu = new Menu();
-
-            // Extract the content from the MenuForm
-            var menuContent = menu.Content;
-
-           
-
-            // Add it to our DockPanel's ContentControl
-            MenuFormContainer.Content = menuContent;
-        }
-
+    
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Home home = new Home();
 
+            this.Close();
+
             home.Show();
 
-            this.Close();
 
         }
 
@@ -55,26 +42,32 @@ namespace Eindopdracht.View
         {
             Gesprekken gesprekken = new Gesprekken();
 
-            gesprekken.Show();
 
             this.Close();
+            gesprekken.Show();
+
         }
 
         private void Open_Account(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Account account = new Account();
-            account.Show();
+
 
             this.Close();
+            account.Show();
+
         }
 
         private void Open_Database(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
             Database database = new Database();
-            database.Show();
+
 
             this.Close();
+
+            database.Show();
+
         }
 
         private void btnOphangen_Click(object sender, RoutedEventArgs e)

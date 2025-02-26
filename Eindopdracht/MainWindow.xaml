@@ -70,14 +70,14 @@ Text="Gebruikersnaam"
             </Button.Style>
         </Button>
         <Button x:Name="btnClose" Content="Uitloggen"
-            Margin="620,0,0,380"
+            Margin="620,20,0,380"
             Background="#DE3B40"
             Foreground="White"
             FontWeight="Bold"
             FontSize="10"
             Padding="10,5" 
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
+            
+            VerticalAlignment="Top"
             Width="155" 
             Height="30"
             FontFamily="Bahnschrift" Click="btnClose_Click" 

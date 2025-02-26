@@ -9,12 +9,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="View\source\Image\account.png" />
+    <None Remove="View\source\Image\Database.png" />
+    <None Remove="View\source\Image\Home.png" />
+    <None Remove="View\source\Image\Idea-X_logo.jpg" />
+    <None Remove="View\source\Image\Idea-X_logo.png" />
+    <None Remove="View\source\Image\Message.png" />
+    <None Remove="View\source\Image\SoundOn.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Model\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\source\Image\account.png" />
+    <Resource Include="View\source\Image\Database.png" />
+    <Resource Include="View\source\Image\Home.png" />
+    <Resource Include="View\source\Image\Idea-X_logo.jpg" />
+    <Resource Include="View\source\Image\Idea-X_logo.png" />
+    <Resource Include="View\source\Image\Message.png" />
+    <Resource Include="View\source\Image\SoundOn.png" />
   </ItemGroup>
 
 </Project>

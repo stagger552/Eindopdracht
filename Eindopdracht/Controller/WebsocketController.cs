@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Eindopdracht.Controller
@@ -56,38 +57,34 @@ namespace Eindopdracht.Controller
         private async Task ReceiveMessagesAsync()
         {
             byte[] buffer = new byte[4096];
+            StringBuilder messageBuilder = new StringBuilder();
+
+
 
             while (_webSocket.State == WebSocketState.Open)
             {
                 try
                 {
                     var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                    string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    Console.WriteLine($"📩 Received: {message}");
+                    string messageChunk = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    messageBuilder.Append(messageChunk);
 
-                    JObject json = JObject.Parse(message);
-
-                    // Store latest JSON safely
-
-                    _lastReceivedJson = json;
-
-
-                    if (json["type"]?.ToString() == "callData")
+                    // Attempt to parse the accumulated message
+                    try
                     {
-                        var callData = json["data"]?["callId"];
+                        JObject json = JObject.Parse(messageBuilder.ToString());
+                        Console.WriteLine($"📩 Received: {json}");
 
-                        if (callData != null)
-                        {
-                            foreach (var call in callData)
-                            {
-                                string callId = call.Path;
-                                var callInfo = call.First;
-                                Console.WriteLine($"📞 Call ID: {callId}");
-                                Console.WriteLine($"📱 Telefoonnummer: {callInfo["Telefoonummer"]}");
-                                Console.WriteLine($"📍 Adres: {callInfo["Postcode"]} {callInfo["Huisnummer"]}");
-                                Console.WriteLine($"✅ Gesprek gesloten: {callInfo["Closed"]}");
-                            }
-                        }
+                        // Store the latest JSON safely
+                        _lastReceivedJson = json;
+
+                        // Clear the StringBuilder for the next message
+                        messageBuilder.Clear();
+                    }
+                    catch (JsonReaderException)
+                    {
+                        // JSON is incomplete; continue accumulating
+                        continue;
                     }
                 }
                 catch (WebSocketException ex)
@@ -97,7 +94,7 @@ namespace Eindopdracht.Controller
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"⚠️ JSON Parse Error: {ex.Message}");
+                    Console.WriteLine($"⚠️ Error: {ex.Message}");
                 }
             }
 
@@ -134,7 +131,7 @@ namespace Eindopdracht.Controller
                     return activeCalls;
                 }
             }
-            return 0;
+            return -1;
         }
 
         public async Task<int> Get24Callls()
@@ -157,6 +154,32 @@ namespace Eindopdracht.Controller
             if (json != null && json["type"]?.ToString() == "callData")
             {
                 var jsonCallID = json["data"];
+
+
+                return jsonCallID.ToString();
+            }
+            return "Niks";
+        }
+
+        public async Task<string> GetDatetime()
+        {
+            var json = GetLastReceivedJson();
+            if (json != null && json["type"]?.ToString() == "callData")
+            {
+                var datetime = json["data"]?["Datetime"];
+
+
+                return datetime.ToString();
+            }
+            return "Niks";
+        }
+
+        public async Task<string> GetJSONCallid(string CallID)
+        {
+            var json = GetLastReceivedJson();
+            if (json != null && json["type"]?.ToString() == "callData")
+            {
+                var jsonCallID = json["data"]?["callId"]?[CallID];
 
 
                 return jsonCallID.ToString();
