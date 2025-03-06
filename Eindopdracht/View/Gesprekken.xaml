@@ -72,6 +72,8 @@ Click="btnOphangen_Click"  >
                 <!-- IsClosed Column -->
                 <DataGridCheckBoxColumn Header="Afgesoten" Binding="{Binding IsClosed}" Width="Auto"/>
 
+                <DataGridCheckBoxColumn Header="Afspraaak geplaned" Binding="{Binding PlannedDate}" Width="Auto"/>
+
                 <!-- Datetime Column -->
                 <DataGridTextColumn Header="Datetime" Binding="{Binding Datetime}" Width="*"/>
 

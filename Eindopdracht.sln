@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eindopdracht", "Eindopdracht\Eindopdracht.csproj", "{7DE04C15-2A80-45FE-8E43-432F8343F4E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B94C4DF8-310E-41D7-BDC3-FF3F3BD4D736}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Downloads\LucyIcon.ico = ..\..\..\Downloads\LucyIcon.ico
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

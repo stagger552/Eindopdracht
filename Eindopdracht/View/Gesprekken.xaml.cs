@@ -18,6 +18,8 @@ using System.Timers;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
+using System.IO;
+
 namespace Eindopdracht.View
 {
     /// <summary>
@@ -135,36 +137,92 @@ namespace Eindopdracht.View
             lastReceived();
 
         }
+        private void PlaySound(string soundFile)
+        {
+            try
+            {
+                // Create a new SoundPlayer object and set the sound file path
+                var player = new System.Media.SoundPlayer(soundFile);
+
+                // Play the sound synchronously
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors, such as file not found or format issues
+                MessageBox.Show("Error playing sound: " + ex.Message);
+            }
+        }
 
         public async void updateActiveCalls()
         {
-
-            int? aantal = await gesprekkenController.GetActiveCalls();
-
-
-
-            if(aantal >= 0)
+            try
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
-                });
 
 
-                lblLivecalls.Dispatcher.Invoke(() =>
+
+
+                int? NewCallerAmount = await gesprekkenController.GetActiveCalls();
+
+
+                if (NewCallerAmount >= 0)
                 {
-                    lblLivecalls.Content = aantal.ToString();
-                });
+                    int PreviousCallerAmount = 0; // Initialize with a default value
+
+                    // Try to get the previous caller amount from the UI
+                    try
+                    {
+                        lblLivecalls.Dispatcher.Invoke(() =>
+                        {
+                            if (lblLivecalls.Content != "")
+                            {
+                                PreviousCallerAmount = Convert.ToInt32(lblLivecalls.Content);
+
+                            }
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        // Optionally handle the error (for example, set PreviousCallerAmount to 0 if conversion fails)
+                        PreviousCallerAmount = 0;
+                    }
+
+                    // Update UI with Green color when calls are active
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
+                    });
+
+                    // Update the label with the new number of active calls
+                    lblLivecalls.Dispatcher.Invoke(() => { lblLivecalls.Content = NewCallerAmount.ToString(); });
+
+                    // Play sound based on the number of calls change
+                    if (NewCallerAmount > PreviousCallerAmount)
+                    {
+                        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "source\\Sound\\NewCall.wav");
+                        PlaySound(path);
+                    }
+                    else if (NewCallerAmount < PreviousCallerAmount)
+                    {
+                        // If the new caller count is lower, play the "down" sound
+                        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "source\\Sound\\EndCall.wav");
+                        PlaySound(path);
+                    }
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
+                    });
+
+                }
             }
-            if(aantal > 0)
+            catch (Exception ex)
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
-                });
-
+                Console.WriteLine(ex.Message);
             }
-            // Use the Dispatcher to update the UI on the main thread
 
         }
 
@@ -292,6 +350,10 @@ namespace Eindopdracht.View
 
         [JsonProperty("Closed")]
         public bool IsClosed { get; set; }
+
+
+        [JsonProperty("PlannedDate")]
+        public bool PlannedDate { get; set; }
 
         [JsonProperty("Datetime")]
         public string Datetime { get; set; }

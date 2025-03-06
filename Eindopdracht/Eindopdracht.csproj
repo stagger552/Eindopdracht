@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>bin\Debug\net8.0-windows\source\Image\LucyIcon.ico</ApplicationIcon>
+    <AssemblyName>Lucy AI</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +20,18 @@
     <None Remove="View\source\Image\Message.png" />
     <None Remove="View\source\Image\send-90.png" />
     <None Remove="View\source\Image\SoundOn.png" />
+    <None Remove="View\source\Sound\EndCall.wav" />
+    <None Remove="View\source\Sound\NewCall.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0-windows\source\Image\LucyIcon.ico" />
+    <Content Include="View\source\Sound\EndCall.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\source\Sound\NewCall.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,15 +44,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="View\source\Image\account.png" />
-    <Resource Include="View\source\Image\Database.png" />
-    <Resource Include="View\source\Image\Home.png" />
-    <Resource Include="View\source\Image\icons8-send-30.png" />
-    <Resource Include="View\source\Image\Idea-X_logo.jpg" />
-    <Resource Include="View\source\Image\Idea-X_logo.png" />
-    <Resource Include="View\source\Image\Message.png" />
-    <Resource Include="View\source\Image\send-90.png" />
-    <Resource Include="View\source\Image\SoundOn.png" />
+    <Resource Include="View\source\Image\account.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\Database.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\Home.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\icons8-send-30.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\Idea-X_logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\Idea-X_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\Message.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\send-90.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\source\Image\SoundOn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Gesprekken.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

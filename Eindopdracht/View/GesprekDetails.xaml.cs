@@ -115,55 +115,61 @@ namespace Eindopdracht.View
                 }
             }
         }
+
         async private void LoadTranscript()
         {
-            // Assuming the FullTranscript is in the JSON format
-            var json = await websocketController.GetJSON();
-            if (json != "Niks")
+            try
             {
-
-                var parsedData = JObject.Parse(json);
-                var fullTranscript = parsedData["callId"]?[CallerID]?["Transcript"]?["FullTranscript"];
-
-
-                if (fullTranscript != null)
+                // Assuming the FullTranscript is in the JSON format
+                var json = await websocketController.GetJSON();
+                if (json != "Niks")
                 {
-                    Dispatcher.Invoke(() =>
+
+                    var parsedData = JObject.Parse(json);
+                    var fullTranscript = parsedData["callId"]?[CallerID]?["Transcript"]?["FullTranscript"];
+
+
+                    if (fullTranscript != null)
                     {
-                        var document = new FlowDocument();
-                        var paragraph = new Paragraph();
-                        foreach (var entry in fullTranscript)
+                        Dispatcher.Invoke(() =>
                         {
-                            var boldRole = new Bold(new Run($"{entry["role"]}: "));
-                            var content = new Run($"{entry["content"]}\n");
-                            paragraph.Inlines.Add(boldRole);
-                            paragraph.Inlines.Add(content);
-                        }
-                        document.Blocks.Add(paragraph);
-                        TranscriptTextBox.Document = document;
+                            var document = new FlowDocument();
+                            var paragraph = new Paragraph();
+                            foreach (var entry in fullTranscript)
+                            {
+                                var boldRole = new Bold(new Run($"{entry["role"]}: "));
+                                var content = new Run($"{entry["content"]}\n");
+                                paragraph.Inlines.Add(boldRole);
+                                paragraph.Inlines.Add(content);
+                            }
+
+                            document.Blocks.Add(paragraph);
+                            TranscriptTextBox.Document = document;
+                        });
+                    }
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
+                    });
+
+                    // Set the text of the TextBox
+                }
+                else
+                {
+
+                    LoadTranscript();
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
                     });
                 }
-
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
-                });
-
-                // Set the text of the TextBox
-            }
-            else
+            }catch (Exception ex)
             {
                 FirstError = true;
 
-                LoadTranscript();
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
-                   
-                });
             }
         }
-
 
 
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -307,7 +313,6 @@ namespace Eindopdracht.View
             }
             catch (Exception ex)
             {
-                FirstError = true;
 
                 Console.WriteLine($"Error making request: {ex.Message}");
                 MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -382,6 +387,7 @@ namespace Eindopdracht.View
             }
             catch (Exception ex)
             {
+                
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
@@ -480,6 +486,8 @@ namespace Eindopdracht.View
             }
             catch (Exception ex)
             {
+
+                FirstError = true;
 
                 Console.WriteLine($"Error loading data: {ex.Message}");
                 Dispatcher.Invoke(() =>
