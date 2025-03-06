@@ -53,8 +53,10 @@ namespace Eindopdracht.View
 
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Home home = new Home();
-
+            Home home = new Home() 
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
             home.Show();
 
             this.Close();
@@ -65,6 +67,14 @@ namespace Eindopdracht.View
         {
             Gesprekken gesprekken = new Gesprekken();
 
+            // Set the new window's position and size to match the current window
+            gesprekken.WindowStartupLocation = WindowStartupLocation.Manual;
+            gesprekken.Left = this.Left;
+            gesprekken.Top = this.Top;
+            gesprekken.Width = this.ActualWidth;
+            gesprekken.Height = this.ActualHeight;
+
+
             gesprekken.Show();
 
             this.Close();
@@ -72,7 +82,13 @@ namespace Eindopdracht.View
 
         private void Open_Account(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Account account = new Account();
+            Account account = new Account()
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
+
             account.Show();
 
             this.Close();
@@ -82,6 +98,14 @@ namespace Eindopdracht.View
         {
 
             Database database = new Database();
+
+            // Set the new window's position and size to match the current window
+            database.WindowStartupLocation = WindowStartupLocation.Manual;
+            database.Left = this.Left;
+            database.Top = this.Top;
+            database.Width = this.ActualWidth;
+            database.Height = this.ActualHeight;
+
             database.Show();
 
             this.Close();
@@ -90,6 +114,15 @@ namespace Eindopdracht.View
         private void btnOphangen_Click(object sender, RoutedEventArgs e)
         {
             MainWindow inloggen = new MainWindow();
+
+            // Set the new window's position and size to match the current window
+            inloggen.WindowStartupLocation = WindowStartupLocation.Manual;
+            inloggen.Left = this.Left;
+            inloggen.Top = this.Top;
+            inloggen.Width = this.ActualWidth;
+            inloggen.Height = this.ActualHeight;
+
+
             this.Close();
             inloggen.Show();
 
@@ -207,17 +240,33 @@ namespace Eindopdracht.View
 
         private void DetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is string callId)
+
+            try
             {
-                GesprekDetails gesprekDetails = new GesprekDetails(callId);
+
+                if (sender is Button button && button.Tag is CallData callData)
+                {
+                    GesprekDetails gesprekDetails = new GesprekDetails(callData.CallInfo, callData.IsClosed)
+
+                    {
+                        WindowState = WindowState.Maximized
+                    };
+
+                    this.Close();
+
+                    gesprekDetails.Show();
 
 
-                this.Close();
-
-                gesprekDetails.Show();
-
-
+                }
             }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                MessageBox.Show(exception.Message);
+                throw;
+            }
+            
+         
         }
 
        

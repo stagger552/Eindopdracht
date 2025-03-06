@@ -20,16 +20,26 @@ namespace Eindopdracht
     {
         public MainWindow()
         {
-          
+
             InitializeComponent();
+            Application.Current.MainWindow.WindowState = WindowState.Maximized;
+
+
 
         }
 
-   
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Create an instance of the home window
-            Home homeWindow = new Home();
+
+            // Create new window and apply the same position and size
+            Home homeWindow = new Home
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
             // Show the home window
             homeWindow.Show();
             // Optionally, close the current window

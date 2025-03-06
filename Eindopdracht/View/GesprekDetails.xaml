@@ -99,7 +99,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button x:Name="btnOphangen_Copy" 
+        <Button x:Name="btnLuisteren" 
             Margin="0,0,134,90"
             Background="#379AE6"
             Foreground="White"
@@ -109,13 +109,13 @@
             VerticalAlignment="Bottom"  
             Height="50" 
             Width="100"
-            FontFamily="Bahnschrift" Click="btnOphangen_Copy_Click" Grid.Column="1" 
+            FontFamily="Bahnschrift"  Grid.Column="1" Click="btnLuisteren_Click" 
             
 
             >
             <StackPanel Orientation="Horizontal">
                 <Image Source="source/Image/SoundOn.png" Width="20" Height="20" Margin="5"/>
-                <TextBlock Text="Luisteren" Foreground="White" VerticalAlignment="Center"/>
+                <TextBlock Text="Luisteren" x:Name="txtLuisteren"  Foreground="White" VerticalAlignment="Center"/>
             </StackPanel>
 
 
@@ -141,14 +141,14 @@
             Margin="230,0,0,30"
             TextWrapping="Wrap"
             VerticalAlignment="Bottom"
-            
+            KeyDown="TxtGebruikernaam_KeyDown"
             Height="35"
-MaxWidth="300px"
+MaxWidth="600px"
             Padding="5"
             BorderBrush="#379AE6"
             BorderThickness="2" 
             Foreground="Black"
-            MinWidth="100px" TextChanged="txtExternalBericht_TextChanged" HorizontalAlignment="Left" Width="479" >
+            MinWidth="100px" TextChanged="txtExternalBericht_TextChanged" HorizontalAlignment="Left" Width="395" >
             <TextBox.Style>
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="Template">
@@ -169,12 +169,12 @@ MaxWidth="300px"
             </TextBox.Style>
         </TextBox>
         <Button x:Name="btnVersturen" 
-            Margin="540,0,101,27"
+            Margin="630,0,36,27"
             Background="#379AE6"
             Foreground="White"
             FontWeight="Bold"
             FontSize="10"
-            
+MaxWidth="150"
             Padding="10,5" Height="40" VerticalAlignment="Bottom" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
 
             <StackPanel Orientation="Horizontal">
@@ -228,7 +228,7 @@ VerticalAlignment="Bottom"
 Width="185" 
 Height="50"
 FontFamily="Bahnschrift" 
-Click="btnOphangen_Click"  >
+Click="btnSluiten_Click"  >
 
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
@@ -272,7 +272,7 @@ Click="btnOphangen_Click"  >
                 </Style>
             </Button.Style>
         </Button>
-        <Rectangle x:Name="RctStatus" HorizontalAlignment="Left" Height="20" Margin="185,29,0,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15"  Grid.Column="1"/>
+        <Rectangle x:Name="RctStatus" HorizontalAlignment="Right" Height="20" Margin="85,30,40,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15"  Grid.Column="1"/>
         <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Right" Margin="0,26,85,0" VerticalAlignment="Top" Height="26" Width="100" FontFamily="Bahnschrift Light" FontSize="9" Grid.Column="1"/>
 
     </Grid>

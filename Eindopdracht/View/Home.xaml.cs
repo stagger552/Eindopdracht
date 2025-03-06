@@ -26,56 +26,79 @@ namespace Eindopdracht.View
 
 
         }
-    
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Home home = new Home();
+            Home home = new Home()
 
-            this.Close();
+            // Set the new window's position and size to match the current window
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
 
             home.Show();
 
+            this.Close();
 
         }
 
         private void Open_Gesprekken(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Gesprekken gesprekken = new Gesprekken();
+            Gesprekken gesprekken = new Gesprekken()
 
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
 
-            this.Close();
             gesprekken.Show();
 
+            this.Close();
         }
 
         private void Open_Account(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Account account = new Account();
+            Account account = new Account()
 
 
-            this.Close();
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
             account.Show();
 
+            this.Close();
         }
 
         private void Open_Database(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
-            Database database = new Database();
+            Database database = new Database()
 
 
-            this.Close();
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
 
             database.Show();
 
+            this.Close();
         }
 
         private void btnOphangen_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow inloggen = new MainWindow();
+            MainWindow inloggen = new MainWindow()
+
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
+
+
             this.Close();
             inloggen.Show();
 
-        }
+        }   
     }
 }

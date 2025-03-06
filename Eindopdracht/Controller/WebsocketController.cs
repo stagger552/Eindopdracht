@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -112,7 +113,7 @@ namespace Eindopdracht.Controller
             }
         }
 
-        public JObject GetLastReceivedJson()
+        public  JObject GetLastReceivedJson()
         {
             lock (_lock)
             {
@@ -176,15 +177,25 @@ namespace Eindopdracht.Controller
 
         public async Task<string> GetJSONCallid(string CallID)
         {
-            var json = GetLastReceivedJson();
-            if (json != null && json["type"]?.ToString() == "callData")
+            try
             {
-                var jsonCallID = json["data"]?["callId"]?[CallID];
+                var json =  GetLastReceivedJson();
+                if (json["data"]?["callId"]?[CallID] != null)
+                {
+                    var jsonCallID = json["data"]?["callId"]?[CallID];
 
 
-                return jsonCallID.ToString();
+                    return jsonCallID.ToString();
+                }
+
+                return "Niks";
             }
-            return "Niks";
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Niks";
+            }
+         
         }
     }
 }

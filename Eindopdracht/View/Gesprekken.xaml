@@ -70,7 +70,7 @@ Click="btnOphangen_Click"  >
                 <DataGridTextColumn Header="Call Info" Binding="{Binding CallInfo}" Width="*"/>
 
                 <!-- IsClosed Column -->
-                <DataGridCheckBoxColumn Header="Is Closed" Binding="{Binding IsClosed}" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="Afgesoten" Binding="{Binding IsClosed}" Width="Auto"/>
 
                 <!-- Datetime Column -->
                 <DataGridTextColumn Header="Datetime" Binding="{Binding Datetime}" Width="*"/>
@@ -79,7 +79,7 @@ Click="btnOphangen_Click"  >
                 <DataGridTemplateColumn Header="Action" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Details" Click="DetailsButton_Click" Tag="{Binding CallInfo}" />
+                            <Button Content="Details" Click="DetailsButton_Click" Tag="{Binding .}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

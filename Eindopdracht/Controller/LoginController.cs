@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eindopdracht.Controller
 {
-    internal class LoginController
+    internal class LoginControllerTest 
     {
     }
 }

@@ -12,9 +12,11 @@
     <None Remove="View\source\Image\account.png" />
     <None Remove="View\source\Image\Database.png" />
     <None Remove="View\source\Image\Home.png" />
+    <None Remove="View\source\Image\icons8-send-30.png" />
     <None Remove="View\source\Image\Idea-X_logo.jpg" />
     <None Remove="View\source\Image\Idea-X_logo.png" />
     <None Remove="View\source\Image\Message.png" />
+    <None Remove="View\source\Image\send-90.png" />
     <None Remove="View\source\Image\SoundOn.png" />
   </ItemGroup>
 
@@ -31,9 +33,11 @@
     <Resource Include="View\source\Image\account.png" />
     <Resource Include="View\source\Image\Database.png" />
     <Resource Include="View\source\Image\Home.png" />
+    <Resource Include="View\source\Image\icons8-send-30.png" />
     <Resource Include="View\source\Image\Idea-X_logo.jpg" />
     <Resource Include="View\source\Image\Idea-X_logo.png" />
     <Resource Include="View\source\Image\Message.png" />
+    <Resource Include="View\source\Image\send-90.png" />
     <Resource Include="View\source\Image\SoundOn.png" />
   </ItemGroup>
 

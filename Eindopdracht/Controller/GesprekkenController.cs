@@ -153,8 +153,10 @@ namespace Eindopdracht.Controller
             {
                 var datetime = json["data"]?["Datetime"];
 
+               
+                    return datetime.ToString();
 
-                return datetime.ToString();
+                
             }
             return "Niks";
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -38,49 +39,86 @@ namespace Eindopdracht.View
         private System.Timers.Timer timer;
 
         private string CallerID;
+        private bool ConversationClosed;
+        private bool dataLoaded;
+        public bool FirstError;
 
-        public GesprekDetails(String Callid)
-
-        
-        
+        public GesprekDetails(String Callid, bool isClosed)
        {
            CallerID = Callid;
-
-            timer = new System.Timers.Timer(1000); // 5000 milliseconds = 5 seconds
-            timer.Elapsed += Timer_Elapsed;
-            timer.AutoReset = true;
-            timer.Enabled = true;
+           ConversationClosed = isClosed;
+           dataLoaded = false;
+           FirstError = false;
 
             InitializeComponent();
 
             lblCallID.Content = CallerID;
+
+            
+                timer = new System.Timers.Timer(1000); 
+                timer.Elapsed += Timer_Elapsed;
+                timer.AutoReset = true;
+                timer.Enabled = true;
+
+          
+
 
             // Add converter for button visibility
             ResourceDictionary resources = new ResourceDictionary();
             resources.Add("BooleanToVisibilityConverter", new BooleanToVisibilityConverter());
             this.Resources.MergedDictionaries.Add(resources);
 
-           
+
+            if (isClosed)
+            {
+                // Subscribe to the Loaded event
+                this.Loaded += RemoveItems;
+
+            }
+            else
+            {
+                txtLuisteren.Text = "Live Audio";
+            }
+
+
         }
 
+
+        private void RemoveItems(object sender, RoutedEventArgs e)
+        { // Hiding the elements
+            btnOphangen.Visibility = Visibility.Collapsed;
+            btnOpnemen.Visibility = Visibility.Collapsed;
+            txtExternalBericht.Visibility = Visibility.Collapsed;
+            btnVersturen.Visibility = Visibility.Collapsed;
+
+            txtLuisteren.Text = "Record URL";
+
+        }
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
             {
-                LoadTranscript();
-                LoadData();
-                lastReceived();
+                if (!FirstError)
+                {
+                    LoadTranscript();
+                    LoadData();
+                    lastReceived();
+                }
+            
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                if (!FirstError)
+                {
+                    MessageBox.Show(ex.Message);
+
+                }
             }
         }
         async private void LoadTranscript()
         {
             // Assuming the FullTranscript is in the JSON format
             var json = await websocketController.GetJSON();
-
             if (json != "Niks")
             {
 
@@ -115,44 +153,26 @@ namespace Eindopdracht.View
             }
             else
             {
+                FirstError = true;
+
+                LoadTranscript();
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     RctStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
+                   
                 });
             }
         }
 
-        async void btnOphangen_Copy_Click(object sender, RoutedEventArgs e)
-        {
-            ClientWebSocket ws = new ClientWebSocket();
-            await ws.ConnectAsync(new Uri("ws://your-websocket-server.com:8080"), CancellationToken.None);
-            Console.WriteLine("Connected to WebSocket server");
-
-            Console.Write("Enter Call ID to listen to: ");
-            string callId = Console.ReadLine();
-
-            string listenMessage = $"{{\"type\": \"listen\", \"callId\": \"{callId}\"}}";
-            await ws.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(listenMessage)), WebSocketMessageType.Text, true, CancellationToken.None);
-
-            byte[] buffer = new byte[1024];
-            MemoryStream audioStream = new MemoryStream();
-            WaveOutEvent waveOut = new WaveOutEvent();
-            BufferedWaveProvider waveProvider = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
-            waveOut.Init(waveProvider);
-            waveOut.Play();
-
-            while (ws.State == WebSocketState.Open)
-            {
-                WebSocketReceiveResult result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                audioStream.Write(buffer, 0, result.Count);
-                waveProvider.AddSamples(buffer, 0, result.Count);
-            }
-        }
 
 
         private void Open_Home(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Home home = new Home();
+            Home home = new Home()
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
 
             home.Show();
 
@@ -162,7 +182,12 @@ namespace Eindopdracht.View
 
         private void Open_Gesprekken(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Gesprekken gesprekken = new Gesprekken();
+            Gesprekken gesprekken = new Gesprekken()
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
 
             gesprekken.Show();
 
@@ -171,7 +196,12 @@ namespace Eindopdracht.View
 
         private void Open_Account(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Account account = new Account();
+            Account account = new Account()
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
             account.Show();
 
             this.Close();
@@ -180,19 +210,36 @@ namespace Eindopdracht.View
         private void Open_Database(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
-            Database database = new Database();
+            Database database = new Database()
+
+            // Set the new window's position and size to match the current window
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
             database.Show();
 
             this.Close();
         }
 
-        private void btnOphangen_Click(object sender, RoutedEventArgs e)
+        private void btnSluiten_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow inloggen = new MainWindow();
+            MainWindow inloggen = new MainWindow()
+
+
+            {
+                WindowState = WindowState.Maximized // Set fullscreen
+            };
+
+
+
             this.Close();
             inloggen.Show();
 
         }
+
+
+
 
         public static async Task SendDoorsturenRequest(string callerID)
         {
@@ -224,6 +271,7 @@ namespace Eindopdracht.View
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine($"Error making request: {ex.Message}");
 
                 MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -259,6 +307,8 @@ namespace Eindopdracht.View
             }
             catch (Exception ex)
             {
+                FirstError = true;
+
                 Console.WriteLine($"Error making request: {ex.Message}");
                 MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -274,7 +324,17 @@ namespace Eindopdracht.View
             SendCloseCallRequest(CallerID);
         }
 
+        private void TxtGebruikernaam_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
 
+                String Message = txtExternalBericht.Text;
+                txtExternalBericht.Text = "";
+
+                SendExternalMessageAsync(Message, CallerID);
+            }
+        }
 
         private void btnVersturen_Click(object sender, RoutedEventArgs e)
         {
@@ -292,6 +352,7 @@ namespace Eindopdracht.View
             // Use the Dispatcher to update the UI on the main thread
             lblLastReceived.Dispatcher.Invoke(() =>
             {
+                dataLoaded = true;
                 lblLastReceived.Content = LastReceived.Result.ToString();
             });
         }
@@ -299,6 +360,7 @@ namespace Eindopdracht.View
         {
             try
             {
+
                 // Build the URL with query parameters
                 string url = $"https://lotjqigjud.a.pinggy.link/ExternalMessage?message={Uri.EscapeDataString(message)}&callID={Uri.EscapeDataString(callID)}";
 
@@ -335,9 +397,8 @@ namespace Eindopdracht.View
                 if (callDataJson == "Niks")
                 {
                     MessageBox.Show("No call data found.");
-                    return;
-                }else
-                {
+                    LoadData();
+                }else{
                     // Deserialize the JSON string into CallData object
                     var callData = JsonConvert.DeserializeObject<CallData>(callDataJson);
 
@@ -448,6 +509,85 @@ namespace Eindopdracht.View
             }
         }
 
+        private void btnJsonBekijken_Click(object sender, RoutedEventArgs e)
+        {
+             
+                 // Assume this is the function where you get the JSON data
+                 var callDataJson =  websocketController.GetJSONCallid(CallerID);
+
+                 if (callDataJson != null && callDataJson.Result != "niks")
+                 {
+                     // Create an instance of the JsonPopupWindow and pass the JSON data to it
+                     JsonMessage jsonMessage = new JsonMessage(callDataJson.Result);
+
+
+                     jsonMessage.Width = 300;
+                     jsonMessage.Height = 600;
+                     // Show the window as a pop-up
+                     jsonMessage.ShowDialog(); // This will open the window as a modal pop-up
+                 }
+
+        
+        }
+
+        private void txtExternalBericht_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private  void btnLuisteren_Click(object sender, RoutedEventArgs e)
+        {
+            if (ConversationClosed)
+            {
+                // Call the async method using Task.Run to execute it on a separate thread
+                Task.Run(async () =>
+                {
+                    var callDataJson = await websocketController.GetJSONCallid(CallerID);
+
+                    try
+                    {
+
+                        
+
+                        // Parse the JSON string into a JObject
+                        JObject jsonObject = JObject.Parse(callDataJson);
+
+                        // Extract "Twillio" and "RecordingURL"
+                        var recordingUrl = jsonObject["Twillio"]?["RecordingURL"].ToString(); // Safely access "Twillio"
+
+
+                        if (recordingUrl != null && recordingUrl != "null")
+                        {
+                            string url = recordingUrl; // Your URL
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = url,
+                                UseShellExecute = true
+                            });
+                        }
+                        else
+                        {
+                            MessageBox.Show("Geen recording URL");
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
+                        throw;
+                    }
+                });
+
+            }
+            else
+            {
+
+            }
+        }
+        private void btnOpenBrowser_Click(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
         public class CallDataItem
         {
             public string CheckpointName { get; set; }
@@ -489,14 +629,6 @@ namespace Eindopdracht.View
         }
 
 
-        private void btnJsonBekijken_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void txtExternalBericht_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+        
     }
 }

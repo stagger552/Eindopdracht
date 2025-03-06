@@ -9,11 +9,13 @@
     <Grid>
         <TextBox 
     x:Name="txtGebruikernaam"
-    Margin="225,115,225,0"
+    Margin="0,144,0,0"
     TextWrapping="Wrap"
     VerticalAlignment="Top"
+    HorizontalAlignment="Center"
 Text="Gebruikersnaam"
-    Height="40"
+    Height="50"
+    Width="400"
     Padding="10"
     BorderBrush="#379AE6"
     BorderThickness="2" 
@@ -38,20 +40,56 @@ Text="Gebruikersnaam"
                 </Style>
             </TextBox.Style>
         </TextBox>
+
+
+
         <TextBox 
-            Margin="225,0,225,0" 
-            TextWrapping="Wrap" 
-            Text="Wachtwoord" 
-            Height="40"
+            x:Name="txtWachtwoord"
+            Margin="200,263,200,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Text="Wachtwoord"
+            Height="50"
+            MaxWidth="900"
             Padding="10"
-            x:Name="txtPassword"/>
+            BorderBrush="#379AE6"
+            BorderThickness="2" 
+            Foreground="Black"
+            Width="400"
+            MinWidth="100px">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border  
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    CornerRadius="10"
+                                >
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+
+
+
         <Button x:Name="btnInloggen" Content="Inloggen"
-        Margin="515,0,135,90"
+        Margin="00,0,0,50"
         Background="#379AE6"
         Foreground="White"
+        HorizontalAlignment="Center"
+        VerticalContentAlignment="Bottom"
+        Width="220"
         FontWeight="Bold"
         FontSize="16"
-        Padding="10,5" Click="Button_Click" VerticalAlignment="Bottom" MaxWidth="200" MinWidth="100">
+        Padding="10,5" Click="Button_Click" VerticalAlignment="Bottom" MaxWidth="200" MinWidth="100" Height="41">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -70,7 +108,7 @@ Text="Gebruikersnaam"
             </Button.Style>
         </Button>
         <Button x:Name="btnClose" Content="Uitloggen"
-            Margin="620,20,0,380"
+            Margin="0,59,30,0"
             Background="#DE3B40"
             Foreground="White"
             FontWeight="Bold"
@@ -78,8 +116,10 @@ Text="Gebruikersnaam"
             Padding="10,5" 
             
             VerticalAlignment="Top"
-            Width="155" 
-            Height="30"
+            HorizontalAlignment="Right"
+            
+            Width="175" 
+            Height="50"
             FontFamily="Bahnschrift" Click="btnClose_Click" 
             >
 
