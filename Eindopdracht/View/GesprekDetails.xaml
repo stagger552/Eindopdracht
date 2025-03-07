@@ -138,7 +138,7 @@
         </Button>
         <TextBox 
             x:Name="txtExternalBericht"
-            Margin="230,0,0,30"
+            Margin="230,0,0,9"
             TextWrapping="Wrap"
             VerticalAlignment="Bottom"
             KeyDown="TxtGebruikernaam_KeyDown"
@@ -148,7 +148,7 @@ MaxWidth="600px"
             BorderBrush="#379AE6"
             BorderThickness="2" 
             Foreground="Black"
-            MinWidth="100px" TextChanged="txtExternalBericht_TextChanged" HorizontalAlignment="Left" Width="395" >
+            MinWidth="100px" HorizontalAlignment="Left" Width="395" >
             <TextBox.Style>
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="Template">
@@ -169,13 +169,13 @@ MaxWidth="600px"
             </TextBox.Style>
         </TextBox>
         <Button x:Name="btnVersturen" 
-            Margin="630,0,36,27"
+            Margin="630,0,41,9"
             Background="#379AE6"
             Foreground="White"
             FontWeight="Bold"
             FontSize="10"
 MaxWidth="150"
-            Padding="10,5" Height="40" VerticalAlignment="Bottom" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
+            Padding="10,5" Height="35" VerticalAlignment="Bottom" FontFamily="Bahnschrift" RenderTransformOrigin="0.5,1.401" Click="btnVersturen_Click"  >
 
             <StackPanel Orientation="Horizontal">
                 <Image Source="source/Image/send-90.png" Width="20" Height="20" Margin="5"/>
@@ -206,7 +206,7 @@ MaxWidth="150"
 
         <Rectangle HorizontalAlignment="Left"  
        VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
-        <Image Margin="10,34,0,0" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill" Width="185" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+        <Image Margin="16,48,0,0" Source="source/Image/KPRS_logo.jpg" Width="173" Height="54" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="56,144,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="108" FontSize="24" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="46,188,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,236,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
@@ -274,6 +274,10 @@ Click="btnSluiten_Click"  >
         </Button>
         <Rectangle x:Name="RctStatus" HorizontalAlignment="Right" Height="20" Margin="85,30,40,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15"  Grid.Column="1"/>
         <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Right" Margin="0,26,85,0" VerticalAlignment="Top" Height="26" Width="100" FontFamily="Bahnschrift Light" FontSize="9" Grid.Column="1"/>
+        <CheckBox x:Name="chkOvernemen" Content="Gesprek overnemen" Margin="230,0,0,49"
+                
+         HorizontalAlignment="Left"  VerticalAlignment="Bottom" Height="19" Width="133" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
+        <Rectangle x:Name="RctGesprekStatus" HorizontalAlignment="Left" Height="20" Margin="230,62,0,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15" RenderTransformOrigin="-31,2.452"/>
 
     </Grid>
 </Window>

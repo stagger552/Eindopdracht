@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:Eindopdracht.View"
         mc:Ignorable="d"
         Title="Gesprekken" Height="450" Width="800">
-    <Grid RenderTransformOrigin="0.594,0.539">
+    <Grid RenderTransformOrigin="0.681,0.631">
 
         <Rectangle HorizontalAlignment="Left"  
        VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
-        <Image Margin="10,34,0,0" Source="source/Image/Idea-X_logo.jpg" Stretch="Fill" Width="185" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="56,144,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="108" FontSize="24" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="46,188,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,236,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="51,283,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="33" Width="125" FontSize="22" />
+
+        <Image Margin="16,48,0,0" Source="source/Image/KPRS_logo.jpg" Width="173" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
 
         <Image Margin="16,150,0,0" Source="source/Image/Home.png" Width="30" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Image Margin="14,199,0,0" Source="source/Image/Message.png" Width="25" Height="27" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -51,10 +53,10 @@ Click="btnOphangen_Click"  >
                 </Style>
             </Button.Style>
         </Button>
-        <Label Content="Live Calls" HorizontalAlignment="Left" Margin="445,25,0,0" VerticalAlignment="Top" Height="33" Width="144" FontWeight="Bold" FontFamily="Arial Black" FontSize="20"/>
+        <Label Content="Live Calls" HorizontalAlignment="Left" Margin="400,26,0,0" VerticalAlignment="Top" Height="34" Width="144" FontWeight="Bold" FontFamily="Arial Black" FontSize="20"/>
         <Label Content="Gesprekken &#xD;&#xA;24 U" HorizontalAlignment="Left" Margin="205,20,0,0" VerticalAlignment="Top" Height="56" Width="155" FontWeight="Bold" FontFamily="Arial Black" FontSize="20"/>
         <Label x:Name="lblGesprekVandaag" Content="" HorizontalAlignment="Left" Margin="242,74,0,0" VerticalAlignment="Top" Height="63" Width="118" FontWeight="Bold" FontFamily="Arial Black" FontSize="40" RenderTransformOrigin="1.683,0.604"/>
-        <Label x:Name="lblLivecalls" Content="" HorizontalAlignment="Left" Margin="486,79,0,0" VerticalAlignment="Top" Height="49" Width="126" FontWeight="Bold" FontFamily="Arial Black" FontSize="40" RenderTransformOrigin="1.683,0.604">
+        <Label x:Name="lblLivecalls" Content="" HorizontalAlignment="Left" Margin="406,80,0,0" VerticalAlignment="Top" Height="49" Width="126" FontWeight="Bold" FontFamily="Arial Black" FontSize="40" RenderTransformOrigin="1.683,0.604">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -88,8 +90,10 @@ Click="btnOphangen_Click"  >
 
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Right" Margin="601,30,60,0" VerticalAlignment="Top" Height="26" Width="100" FontFamily="Bahnschrift Light" FontSize="9"/>
-        <Rectangle x:Name="RctStatus" HorizontalAlignment="Right" Height="20" Margin="745,28,20,0"  VerticalAlignment="Top" Width="20" Fill="#FF756A6A" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <Label x:Name="lblLastReceived" Content="Last Received: " HorizontalAlignment="Right" Margin="0,30,60,0" VerticalAlignment="Top" Height="26" Width="155" FontFamily="Bahnschrift Light" FontSize="12"/>
+        <Rectangle x:Name="RctStatus" HorizontalAlignment="Right" Height="25" Margin="0,30,25,0"  VerticalAlignment="Top" Width="25" Fill="#FF756A6A" RadiusX="15" RadiusY="15" RenderTransformOrigin="2,0.502"/>
+        <CheckBox x:Name="cbxGeluid" Content="Geluid
+                  " HorizontalAlignment="Right" Margin="0,80,90,0" VerticalAlignment="Top" HorizontalContentAlignment="Right"  Width="61" ClickMode="Press" Checked="cbxGeluid_Checked" Unchecked="cbxGeluid_Unchecked" IsChecked="True" />
 
     </Grid>
 </Window>

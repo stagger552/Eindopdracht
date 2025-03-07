@@ -33,6 +33,7 @@ namespace Eindopdracht.View
 
         public ObservableCollection<CallData> Calls { get; set; }
 
+        private bool geluidChecked = true;
         public Gesprekken()
         {
             InitializeComponent();
@@ -150,7 +151,8 @@ namespace Eindopdracht.View
             catch (Exception ex)
             {
                 // Handle any errors, such as file not found or format issues
-                MessageBox.Show("Error playing sound: " + ex.Message);
+
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -197,17 +199,27 @@ namespace Eindopdracht.View
                     // Update the label with the new number of active calls
                     lblLivecalls.Dispatcher.Invoke(() => { lblLivecalls.Content = NewCallerAmount.ToString(); });
 
-                    // Play sound based on the number of calls change
-                    if (NewCallerAmount > PreviousCallerAmount)
+                    if (geluidChecked)
                     {
-                        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "source\\Sound\\NewCall.wav");
-                        PlaySound(path);
-                    }
-                    else if (NewCallerAmount < PreviousCallerAmount)
-                    {
-                        // If the new caller count is lower, play the "down" sound
-                        string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "source\\Sound\\EndCall.wav");
-                        PlaySound(path);
+                        string path;
+                        // Play sound based on the number of calls change
+                        if (NewCallerAmount > PreviousCallerAmount)
+                        {
+                             path = System.IO.Path.Combine(
+                                AppDomain.CurrentDomain.BaseDirectory,
+                                "..", "..", "..", "View", "source", "Sound", "NewCall.wav"
+                            );
+
+                            PlaySound(path);
+                        }
+                        else if (NewCallerAmount < PreviousCallerAmount)
+                        {
+                            path = System.IO.Path.Combine(
+                                AppDomain.CurrentDomain.BaseDirectory,
+                                "..", "..", "..", "View", "source", "Sound", "EndCall.wav"
+                            );
+                            PlaySound(path);
+                        }
                     }
                 }
                 else
@@ -327,15 +339,17 @@ namespace Eindopdracht.View
          
         }
 
-       
-    }
+        private void cbxGeluid_Checked(object sender, RoutedEventArgs e)
+        {
+            geluidChecked = true; // Update the variable when checked
+            Console.WriteLine($"CheckBox is checked: {geluidChecked}");
+        }
 
-
-    // JSON Parsing Classes
-    public class RootObject
-    {
-        public string Type { get; set; }
-        public CallDataWrapper Data { get; set; }
+        private void cbxGeluid_Unchecked(object sender, RoutedEventArgs e)
+        {
+            geluidChecked = false; // Update the variable when unchecked
+            Console.WriteLine($"CheckBox is checked: {geluidChecked}");
+        }
     }
 
     public class CallDataWrapper

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,8 @@ namespace Eindopdracht.View
 
         private string CallerID;
         private bool ConversationClosed;
+        private bool GesprekOvergenomen;
+        private bool ConversationCheck = false;
         private bool dataLoaded;
         public bool FirstError;
 
@@ -51,16 +54,12 @@ namespace Eindopdracht.View
            FirstError = false;
 
             InitializeComponent();
-
             lblCallID.Content = CallerID;
 
-            
-                timer = new System.Timers.Timer(1000); 
-                timer.Elapsed += Timer_Elapsed;
-                timer.AutoReset = true;
-                timer.Enabled = true;
-
-          
+            timer = new System.Timers.Timer(1000); 
+            timer.Elapsed += Timer_Elapsed;
+            timer.AutoReset = true;
+            timer.Enabled = true;
 
 
             // Add converter for button visibility
@@ -91,6 +90,8 @@ namespace Eindopdracht.View
             txtExternalBericht.Visibility = Visibility.Collapsed;
             btnVersturen.Visibility = Visibility.Collapsed;
 
+            chkOvernemen.Visibility = Visibility.Collapsed;
+
             txtLuisteren.Text = "Record URL";
 
         }
@@ -104,7 +105,13 @@ namespace Eindopdracht.View
                     LoadData();
                     lastReceived();
                 }
-            
+
+                if (ConversationClosed && !ConversationCheck)
+                {
+                    ConversationCheck = true;
+                    this.Loaded += RemoveItems;
+                }
+
             }
             catch (Exception ex)
             {
@@ -133,6 +140,10 @@ namespace Eindopdracht.View
                     {
                         Dispatcher.Invoke(() =>
                         {
+                            // Save current scroll position
+                            double scrollOffset = TranscriptTextBox.VerticalOffset;
+                            bool isAtBottom = TranscriptTextBox.VerticalOffset >= TranscriptTextBox.ExtentHeight - TranscriptTextBox.ViewportHeight;
+
                             var document = new FlowDocument();
                             var paragraph = new Paragraph();
                             foreach (var entry in fullTranscript)
@@ -145,6 +156,17 @@ namespace Eindopdracht.View
 
                             document.Blocks.Add(paragraph);
                             TranscriptTextBox.Document = document;
+
+                            // Restore scroll position or scroll to bottom
+                            if (isAtBottom)
+                            {
+                                TranscriptTextBox.ScrollToEnd();
+                            }
+                            else
+                            {
+                                TranscriptTextBox.ScrollToVerticalOffset(scrollOffset);
+                            }
+
                         });
                     }
 
@@ -231,13 +253,9 @@ namespace Eindopdracht.View
         private void btnSluiten_Click(object sender, RoutedEventArgs e)
         {
             MainWindow inloggen = new MainWindow()
-
-
             {
                 WindowState = WindowState.Maximized // Set fullscreen
             };
-
-
 
             this.Close();
             inloggen.Show();
@@ -318,7 +336,62 @@ namespace Eindopdracht.View
                 MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        public static async Task sendOvernemenUpdate(string callerID, bool overgonomen)
+        {
+            var url = "https://lotjqigjud.a.pinggy.link/GesprekOvernemen"; // The URL remains the same
 
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    // Add the CallerID in the header
+                    client.DefaultRequestHeaders.Add("CallerID", callerID);
+                    client.DefaultRequestHeaders.Add("Overgenomen", overgonomen.ToString());
+
+                    // Send the GET request
+                    var response = await client.GetAsync(url);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (overgonomen)
+                        {
+                            var toast = new ToastWindow("Het gesprek is succesvol Overgenomen!");
+                            toast.WindowStartupLocation = WindowStartupLocation.Manual;
+                            toast.Left = (SystemParameters.PrimaryScreenWidth - toast.Width) / 2;
+                            toast.Top = (SystemParameters.PrimaryScreenHeight - toast.Height) / 2 - 50;
+                            toast.Show();
+
+
+
+                        }
+                        else
+                        {
+                            var toast = new ToastWindow("Het gesprek is Niet meer Overgenomen!");
+                            toast.WindowStartupLocation = WindowStartupLocation.Manual;
+                            // Calculate the position for the middle of the screen
+                            toast.Left = (SystemParameters.PrimaryScreenWidth - toast.Width) / 2;
+                            // Move it a little bit higher than the middle of the screen (e.g., 50px above the center)
+                            toast.Top = (SystemParameters.PrimaryScreenHeight - toast.Height) / 2 - 50;
+                            toast.Show();
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Fout overnemen Gesprek", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error making request: {ex.Message}");
+                MessageBox.Show($"Er is een fout opgetreden: {ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
         private void btnOpnemen_Click(object sender, RoutedEventArgs e)
         {
             SendDoorsturenRequest(CallerID);
@@ -328,6 +401,35 @@ namespace Eindopdracht.View
         {
             SendCloseCallRequest(CallerID);
         }
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                sendOvernemenUpdate(CallerID, true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Gesprek sluiten: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+        }
+        private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+
+                sendOvernemenUpdate(CallerID, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error Gesprek sluiten: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+        }
+
+
 
         private void TxtGebruikernaam_KeyDown(object sender, KeyEventArgs e)
         {
@@ -402,11 +504,13 @@ namespace Eindopdracht.View
 
                 if (callDataJson == "Niks")
                 {
-                    MessageBox.Show("No call data found.");
                     LoadData();
                 }else{
                     // Deserialize the JSON string into CallData object
                     var callData = JsonConvert.DeserializeObject<CallData>(callDataJson);
+
+                    ConversationClosed = callData.Closed;
+                     GesprekOvergenomen = callData.Overgenomen;
 
                     // Populate the DataGrid with items
                     var items = new List<CallDataItem>
@@ -474,6 +578,7 @@ namespace Eindopdracht.View
                         CheckpointName = "Closed",
                         IsChecked = callData.Closed,
                         DetailValue = callData.Closed.ToString()
+
                     },
                     };
 
@@ -482,6 +587,45 @@ namespace Eindopdracht.View
                     {
                         CallDataGrid.ItemsSource = items;
                     });
+
+
+                    if (GesprekOvergenomen == true && ConversationClosed == false)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            var window = Application.Current.Windows.OfType<GesprekDetails>().FirstOrDefault();
+                            if (window != null)
+                            {
+                                //Blauw
+                                window.RctGesprekStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#029FE3"));
+                            }
+                        });
+                    }
+                    if (ConversationClosed == true)
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            var window = Application.Current.Windows.OfType<GesprekDetails>().FirstOrDefault();
+                            if (window != null)
+                            {
+                                //rood
+                                window.RctGesprekStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DE3B40"));
+                                this.Loaded += RemoveItems;
+                            }
+                        });
+                    }
+                    else if (GesprekOvergenomen == false)
+                   {
+                       Application.Current.Dispatcher.Invoke(() =>
+                       {
+                           var window = Application.Current.Windows.OfType<GesprekDetails>().FirstOrDefault();
+                           if (window != null)
+                           {
+                               //Groen
+                               window.RctGesprekStatus.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1DD75B"));
+                           }
+                       });
+                    }
                 }
             }
             catch (Exception ex)
@@ -538,10 +682,7 @@ namespace Eindopdracht.View
         
         }
 
-        private void txtExternalBericht_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+     
 
         private  void btnLuisteren_Click(object sender, RoutedEventArgs e)
         {
@@ -591,10 +732,7 @@ namespace Eindopdracht.View
 
             }
         }
-        private void btnOpenBrowser_Click(object sender, RoutedEventArgs e)
-        {
-          
-        }
+     
 
         public class CallDataItem
         {
@@ -615,6 +753,8 @@ namespace Eindopdracht.View
             public bool? AdresGeldig { get; set; } // Changed to nullable bool
             public string Datetime { get; set; }
             public bool Closed { get; set; }
+            public bool Overgenomen { get; set; }
+
             public Checkpoints Checkpoints { get; set; }
             public Afspraak Afspraak { get; set; }
         }
@@ -636,7 +776,6 @@ namespace Eindopdracht.View
             public string Naam { get; set; }
         }
 
-
-        
+       
     }
 }

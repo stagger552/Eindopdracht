@@ -148,29 +148,52 @@ namespace Eindopdracht.Controller
 
         public async Task<string> GetDatetime()
         {
-            var json = GetLastReceivedJson();
-            if (json != null && json["type"]?.ToString() == "callData")
+            try
             {
-                var datetime = json["data"]?["Datetime"];
+                var json = GetLastReceivedJson();
+                if (json != null && json["type"]?.ToString() == "callData")
+                {
+                    var datetime = json["data"]?["Datetime"];
 
-               
-                    return datetime.ToString();
+                    if (datetime != null) // Correcte null-check
+                    {
+                        return datetime.ToString();
+                    }
 
-                
+                }
+
+                return "Niks";
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Niks";
+
             }
-            return "Niks";
         }
+
         public async Task<string> GetJSON()
         {
-            var json = GetLastReceivedJson();
-            if (json != null && json["type"]?.ToString() == "callData")
+            try
             {
-                var jsonCallID = json["data"];
+                var json = GetLastReceivedJson();
+                if (json != null && json["type"]?.ToString() == "callData")
+                {
+                    var jsonCallID = json["data"];
 
 
-                return jsonCallID.ToString();
+                    return jsonCallID.ToString();
+                }
+
+
+                return "Niks";
             }
-            return "Niks";
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Niks";
+
+            }
         }
     }
+    
 }

@@ -15,6 +15,8 @@
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,217,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Database" Content="Database" HorizontalAlignment="Left" Margin="51,255,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
 
+        <Image Margin="16,48,0,0" Source="source/Image/KPRS_logo.jpg" Width="173" Height="54" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
         <Image Margin="17,143,754,265" Source="source/Image/Home.png" />
         <Image Margin="18,182,756,225" Source="source/Image/Message.png" />
         <Image Margin="14,221,752,182" Source="source/Image/account.png" Stretch="Fill"/>

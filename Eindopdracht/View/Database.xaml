@@ -9,7 +9,7 @@
     <Grid>
         <Rectangle HorizontalAlignment="Left"  
             VerticalAlignment="Stretch" Height="Auto"  Width="200" Fill="#FF379AE6" />
-        <Image Margin="20,34,624,357" Source="Idea-X_logo.jpg" Stretch="Fill"/>
+        <Image Margin="16,48,0,0" Source="source/Image/KPRS_logo.jpg" Width="173" Height="54" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Home" Content="Home" HorizontalAlignment="Left" Margin="51,139,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="34" Width="109" FontSize="24" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Gesprekken"  Content="Gesprekken" HorizontalAlignment="Left"  Margin="44,180,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="36" Width="154" FontSize="22" />
         <Label Cursor="Hand" MouseLeftButtonDown="Open_Account" Content="Account&#xA;preken" HorizontalAlignment="Left" Margin="51,217,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" Foreground="White" Height="39" Width="125" FontSize="22" />
@@ -55,7 +55,7 @@
         <DataGrid d:ItemsSource="{d:SampleData ItemCount=8}" Margin="231,171,20,20" />
         <ComboBox HorizontalAlignment="Left" Margin="231,119,0,0" VerticalAlignment="Top" Width="98" Height="22" RenderTransformOrigin="1.039,0.372"/>
         <TextBox HorizontalAlignment="Left" Margin="331,119,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="353" Height="22"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="689,119,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,1.004" Width="91" Height="22"/>
+        <Button Content="Zoeken" HorizontalAlignment="Left" Margin="689,119,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,1.004" Width="91" Height="22"/>
 
     </Grid>
 </Window>
